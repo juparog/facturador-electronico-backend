@@ -1,0 +1,9 @@
+{
+  "name": "facturador-electronico-backend",
+  "version": "1.0.0",
+  "description": "Facturador electronico backend",
+  "main": "index.js",
+  "repository": "https://github.com/juparog/facturador-electronico-backend.git",
+  "author": "emprendimiento",
+  "license": "MIT"
+}
