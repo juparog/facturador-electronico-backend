@@ -1,7 +1,8 @@
-const logger = require('morgan');
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const indexRouter = require('./routes/index');
+import logger from 'morgan';
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import indexRouter from './routes/index';
+
 const app = express();
 
 app.use(logger('dev'));
@@ -10,4 +11,4 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use('/v1', indexRouter);
 
-module.exports = app;
+export default app;
