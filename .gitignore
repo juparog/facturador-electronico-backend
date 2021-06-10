@@ -1,0 +1,15 @@
+# dependencias
+node_modules/
+
+# logs
+yarn-error.log
+
+# variables de confoiguracion
+.env
+.nyc_output
+
+# resultados de covertura
+coverage
+
+# construcciones
+build/
