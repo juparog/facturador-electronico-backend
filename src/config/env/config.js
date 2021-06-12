@@ -14,9 +14,11 @@ console.log(`* Buscando archivo de configuracion: ${configPath}`);
 if (Fs.existsSync(configPath)) {
   config.loadFile(configPath);
   config.validate();
-  console.log(`* Archivo de configuracion cargado correctamente`);
+  console.log('* Archivo de configuracion cargado correctamente');
 } else {
-  console.log(`* No se encontro el archivo, ejecutando con la configuración .env por defecto`);
+  console.log(
+    '* No se encontro el archivo, ejecutando con la configuración .env por defecto'
+  );
 }
 
 module.exports = config;

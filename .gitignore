@@ -4,14 +4,14 @@ node_modules/
 # logs
 yarn-error.log
 
-# variables de confoiguracion
+# variables de configuracion
 .env
-.nyc_output
 .env.test
 .env.*.json
 
-# resultados de covertura
+# resultados de pruebas y covertura
 coverage
+.nyc_output
 
 # construcciones
 build/
