@@ -5,6 +5,10 @@
 import debug from 'debug';
 import http from 'http';
 import app from '../app';
+
+// variables de ambiente
+import config from '../config/env/config';
+
 /**
  * Normalize a port into a number, string, or false.
  */
@@ -24,7 +28,8 @@ const normalizePort = (val) => {
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || '3000');
+// const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(config.get('port') || '3000');
 app.set('port', port);
 
 /**
@@ -64,6 +69,7 @@ const onListening = () => {
   const addr = server.address();
   const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
   debug(`Listening on ${bind}`);
+  console.log(`* Servidor escuchando en http://localhost:${addr.port}`);
 };
 /**
  * Listen on provided port, on all network interfaces.
