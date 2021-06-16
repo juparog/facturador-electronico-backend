@@ -1,5 +1,4 @@
-import { expect, server, BASE_URL } from './setup';
-import config from '../src/config/env/config';
+import { expect, server, configEnv, BASE_URL } from './setup';
 
 const urlResponse200Test = (info, urlPath, responseMessage) => {
   it(info, (done) => {
@@ -12,10 +11,14 @@ const urlResponse200Test = (info, urlPath, responseMessage) => {
         done();
       });
   });
-}
+};
 
 describe('Index page test', () => {
-  urlResponse200Test('gets base url', '/', 'Bienvenido a la api de Facturador Electrónico.');
-  
-  urlResponse200Test('gets /envtest url', '/enctest', config.get('envtest'));
+  urlResponse200Test(
+    'gets base url',
+    '/',
+    'Bienvenido a la api de Facturador Electrónico.'
+  );
+
+  urlResponse200Test('gets /envtest url', '/envtest', configEnv.get('envtest'));
 });
