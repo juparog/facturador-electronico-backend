@@ -1,14 +1,22 @@
-import { expect, server, BASE_URL } from './setup';
+import { expect, server, configEnv, BASE_URL } from './setup';
 
-describe('Index page test', () => {
-  it('gets base url', (done) => {
+const urlResponse200Test = (info, urlPath, responseMessage) => {
+  it(info, (done) => {
     server
-      .get(`${BASE_URL}/`)
+      .get(`${BASE_URL}/${urlPath}`)
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.message).to.equal('Welcome to Express API template.');
+        expect(res.body.message).to.equal(responseMessage);
         done();
       });
   });
+};
+
+describe('Index page test', () => {
+  urlResponse200Test(
+    'gets base url',
+    '/',
+    'Bienvenido a la api de Facturador Electrónico.'
+  );
 });

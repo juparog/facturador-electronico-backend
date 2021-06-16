@@ -8,6 +8,7 @@ yarn-error.log
 .env
 .env.test
 .env.*.json
+!.env.sample.json
 
 # resultados de pruebas y covertura
 coverage

@@ -1,10 +1,8 @@
 import express from 'express';
-import config from '../config/env/config';
+import { indexPage } from '../controllers/index';
 
 const indexRouter = express.Router();
 
-indexRouter.get('/', (req, res) => res.status(200).json({ message: 'Welcome to Express API template.' }));
-
-indexRouter.get('/envtest', (req, res) => res.status(200).json({ message: config.get('envtest') }));
+indexRouter.get('/', indexPage);
 
 export default indexRouter;

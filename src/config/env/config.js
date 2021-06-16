@@ -6,6 +6,10 @@ const Schema = require('./schema');
 
 const config = Convict(Schema);
 const mode = config.get('env');
+
+console.log(
+  '-------------- Configuracion de variables de entorno ---------------'
+);
 console.log(`* Modo de ejecucion: ${mode}`);
 
 const configPath = Path.resolve(__dirname, `./.env.${mode}.json`);
@@ -20,5 +24,10 @@ if (Fs.existsSync(configPath)) {
     '* No se encontro el archivo, ejecutando con la configuración .env por defecto'
   );
 }
+
+console.log(
+  '-------------------------------------------------------------------'
+);
+console.log('');
 
 module.exports = config;
