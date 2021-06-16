@@ -19,6 +19,4 @@ describe('Index page test', () => {
     '/',
     'Bienvenido a la api de Facturador Electrónico.'
   );
-
-  urlResponse200Test('gets /envtest url', '/envtest', configEnv.get('envtest'));
 });

@@ -11,10 +11,4 @@ module.exports = {
     default: 4001,
     env: 'PORT',
   },
-  envtest: {
-    doc: 'Variable de prueba.',
-    format: String,
-    default: 'Variable de prueba encontrada.',
-    env: 'ENV_TEST',
-  },
 };
