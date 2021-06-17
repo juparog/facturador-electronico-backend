@@ -1,4 +1,4 @@
-import { expect, server, configEnv, BASE_URL } from './setup';
+import { expect, server, BASE_URL } from './setup';
 
 describe('User test', () => {
   it('gets list user url', (done) => {

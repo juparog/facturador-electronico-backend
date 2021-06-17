@@ -1,14 +1,11 @@
-import fs from 'fs';
-import path from 'path';
 import Sequelize from 'sequelize';
 import configEnv from '../config/env/config';
 
 // modelos
-import {User} from './user';
+import { User } from './user';
 
-const basename = path.basename(__filename);
 const env = configEnv.get('env') || 'development';
-const config = require(`${__dirname}/../config/db/babelHook.js`)[env];
+const config = require('../config/db/babelHook')[env];
 
 const sequelize = new Sequelize(
   config.database,

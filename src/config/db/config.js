@@ -1,21 +1,22 @@
 import configEnv from '../env/config';
 import mysql from './mysql';
 import postgres from './postgres';
+import { logger } from '../../helpers/console';
 
-console.log(
+logger.info(
   '----------------- Configuracion de base de datos ------------------'
 );
-console.log(`* Cargando la configuracion: ${configEnv.get('db.dialect')}`);
+logger.info(`* Cargando la configuracion: ${configEnv.get('db.dialect')}`);
 
 const grouperConfig = {
   mysql,
   postgres,
 };
 
-console.log('* Configuracion cargada correctamente');
-console.log(
+logger.info('* Configuracion cargada correctamente');
+logger.info(
   '-------------------------------------------------------------------'
 );
-console.log('');
+logger.info('');
 
 export default grouperConfig[`${configEnv.get('db.dialect')}`];

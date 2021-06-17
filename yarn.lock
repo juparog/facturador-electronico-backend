@@ -1084,6 +1084,11 @@ ansi-regex@^5.0.0:
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-5.0.0.tgz#388539f55179bf39339c81af30a654d69f87cb75"
   integrity sha512-bY6fj56OUQ0hU1KjFNDQuJFezqKdrAyFdIevADiqrWHwSlbmBNMHp5ak2f40Pm8JTFyM2mqxkG6ngkHO11f/lg==
 
+ansi-styles@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-2.2.1.tgz#b432dd3358b634cf75e1e4664368240533c1ddbe"
+  integrity sha1-tDLdM1i2NM914eRmQ2gkBTPB3b4=
+
 ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.1.tgz#41fbb20243e50b12be0f04b8dedbf07520ce841d"
@@ -1830,7 +1835,7 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.9, debug@~2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@4.3.1, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
+debug@4.3.1, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.1.tgz#f0d229c505e0c6d8c49ac553d1b13dc183f6b2ee"
   integrity sha512-doEwdvm4PCeK4K3RQN2ZC2BYUBaxwLARCqZmMjtF8a51J2Rb0xpVloFRnCODwqjpwnAoao4pelN8l3RJdv3gRQ==
@@ -3565,6 +3570,15 @@ log-symbols@4.1.0:
     chalk "^4.1.0"
     is-unicode-supported "^0.1.0"
 
+logging@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/logging/-/logging-3.3.0.tgz#5743f9154f790308c5d6f2e28196dd0259fcf0ad"
+  integrity sha512-Hnmu3KlGTbXMVS7ONjBpnjjiF9cBlK5qsmj77sOcqRkNpvO9ouUGPKe2PmBCWWYpKAbxb96b08cYEv4hiBk3lQ==
+  dependencies:
+    chalk "^4.1.0"
+    debug "^4.3.1"
+    nicely-format "^1.1.0"
+
 long@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/long/-/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
@@ -3855,6 +3869,14 @@ next-tick@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
+
+nicely-format@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/nicely-format/-/nicely-format-1.1.0.tgz#6c3513d1f38077d65ed9721e716a8e1917ba27b6"
+  integrity sha1-bDUT0fOAd9Ze2XIecWqOGRe6J7Y=
+  dependencies:
+    ansi-styles "^2.2.1"
+    esutils "^2.0.2"
 
 node-environment-flags@^1.0.5:
   version "1.0.6"
