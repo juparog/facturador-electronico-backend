@@ -2,7 +2,6 @@ import configEnv from '../env/config';
 
 export default {
   development: {
-    use_env_variable: true,
     username: configEnv.get('db.user'),
     password: configEnv.get('db.password'),
     database: configEnv.get('db.name'),

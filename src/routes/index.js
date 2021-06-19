@@ -6,6 +6,6 @@ const indexRouter = express.Router();
 
 indexRouter.get('/', indexPage);
 
-indexRouter.use('/user', routerUser);
+indexRouter.use('/users', routerUser);
 
 export default indexRouter;
