@@ -1,6 +1,6 @@
 import { db } from '../models';
 
-const listUser = async (req, res) => {
+const getListUser = async (req, res) => {
   const data = await db.User.findAll({});
   res.status(200).json({ data });
 };
@@ -16,7 +16,15 @@ const updateUser = async (req, res) => {
       id: req.params.id,
     },
   });
-  res.status(200).json({ data: req.body });
+  if (num[0] === 1) {
+    res.status(200).json({
+      data: {
+        id: req.params.id,
+        ...req.body,
+      },
+    });
+  }
+  res.status(200).json({ message: 'No se pudo actualizar el usuario' });
 };
 
-export { listUser, createUser, updateUser };
+export { getListUser, createUser, updateUser };

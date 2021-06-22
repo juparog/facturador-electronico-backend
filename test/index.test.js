@@ -13,9 +13,9 @@ const urlResponse200Test = (info, urlPath, responseMessage) => {
   });
 };
 
-describe('Index page test', () => {
+describe('Test index api', () => {
   urlResponse200Test(
-    'gets base url',
+    'Ruta base /api',
     '/',
     'Bienvenido a la api de Facturador Electrónico.'
   );
