@@ -3,11 +3,11 @@ environment:
   - nodejs_version: "14"
 services:
   - mysql
-before_install:
-  - mysql -u $DB_USER -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 install:
   - yarn
-before_script:
+  - set PATH=%PATH%;C:\Program Files\MySql\MySQL Server 5.7\bin
+before_test:
+  - mysql -e "CREATE DATABASE IF NOT EXISTS `%DB_NAME%`;" --user=%DB_USER% --password=%DB_PASSWORD%
   - yarn global add sequelize-cli
   - sequelize db:migrate
 test_script:
