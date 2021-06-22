@@ -9,7 +9,7 @@ matrix:
 cache:
   directories: [node_modules]
 before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS $DB_NAME;'
+  - mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 install:
   yarn
 services:
