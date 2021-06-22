@@ -1,8 +1,15 @@
 environment:
   matrix:
   - nodejs_version: "14"
+services:
+  - mysql
+before_install:
+  - mysql -u $DB_USER -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 install:
   - yarn
+before_script:
+  - yarn global add sequelize-cli
+  - sequelize db:migrate
 test_script:
   - yarn test
 build: off
