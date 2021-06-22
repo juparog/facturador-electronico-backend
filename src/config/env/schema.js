@@ -11,6 +11,14 @@ module.exports = {
     default: 4001,
     env: 'PORT',
   },
+  app: {
+    name: {
+      doc: 'Nombre de la aplicacion.',
+      format: String,
+      default: 'AppName',
+      env: 'APP_NAME',
+    },
+  },
   db: {
     dialect: {
       doc: 'Tipo de base de datos (dialecto).',

@@ -10,7 +10,9 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "./node_modules/.bin/eslint ./src",
     "pretty": "prettier --write \"**/*.{js,json}\" \"!node_modules/**\"",
-    "postpretty": "yarn lint --fix"
+    "postpretty": "yarn lint --fix",
+    "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=; NPM_CONFIG_PRODUCTION=false NODE_ENV=development npm install --only=dev --dev",
+    "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;"
   },
   "dependencies": {
     "convict": "^6.1.0",
@@ -19,6 +21,7 @@
     "express": "~4.16.1",
     "fs": "^0.0.1-security",
     "http-errors": "~1.6.3",
+    "logging": "^3.3.0",
     "morgan": "~1.9.1",
     "mysql2": "^2.2.5",
     "path": "^0.12.7",
@@ -38,6 +41,7 @@
     "eslint": "^7.28.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.4",
+    "faker": "^5.5.3",
     "mocha": "^9.0.0",
     "nodemon": "^2.0.7",
     "nyc": "^15.1.0",

@@ -1,43 +1,35 @@
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
+import configEnv from '../config/env/config';
 
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(`${__dirname}/../config/db/config2.js`)[env];
-const db = {};
+// modelos
+import { User } from './user';
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-  );
-}
+const env = configEnv.get('env') || 'development';
+const config = require('../config/db/babelHook')[env];
 
-fs.readdirSync(__dirname)
-  .filter(
-    (file) => file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
-  )
-  .forEach((file) => {
-    const model = require(path.join(__dirname, file))(
-      sequelize,
-      Sequelize.DataTypes
-    );
-    db[model.name] = model;
-  });
+const sequelize = new Sequelize(
+  config.database,
+  config.username,
+  config.password,
+  config
+);
 
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+// iniciar los modelos
+const models = {
+  User: User.init(sequelize, Sequelize),
+};
+
+// ejecutar las relaciones si existen para cada modelo
+Object.values(models)
+  .filter((model) => typeof model.associate === 'function')
+  .forEach((model) => model.associate(models));
+
+const db = {
+  ...models,
+  sequelize,
+};
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+export { db };

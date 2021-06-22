@@ -1,33 +1,34 @@
-const Convict = require('convict');
-const Fs = require('fs');
-const Path = require('path');
+import convict from 'convict';
+import fs from 'fs';
+import path from 'path';
+import createLogger from 'logging';
+import Schema from './schema';
 
-const Schema = require('./schema');
+const logger = createLogger('InitApp');
 
-const config = Convict(Schema);
+const config = convict(Schema);
 const mode = config.get('env');
 
-console.log(
+logger.info(
   '-------------- Configuracion de variables de entorno ---------------'
 );
-console.log(`* Modo de ejecucion: ${mode}`);
+logger.info(`* Modo de ejecucion: ${mode}`);
 
-const configPath = Path.resolve(__dirname, `./.env.${mode}.json`);
-console.log(`* Buscando archivo de configuracion: ${configPath}`);
+const configPath = path.resolve(__dirname, `./.env.${mode}.json`);
+logger.info(`* Buscando archivo de configuracion: /.env.${mode}.json`);
 
-if (Fs.existsSync(configPath)) {
+if (fs.existsSync(configPath)) {
   config.loadFile(configPath);
   config.validate();
-  console.log('* Archivo de configuracion cargado correctamente');
+  logger.info('* Archivo de configuracion cargado correctamente');
 } else {
-  console.log(
+  logger.info(
     '* No se encontro el archivo, ejecutando con la configuración .env por defecto'
   );
 }
 
-console.log(
+logger.info(
   '-------------------------------------------------------------------'
 );
-console.log('');
 
 module.exports = config;

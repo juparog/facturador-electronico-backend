@@ -1,26 +1,61 @@
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
+export class User extends Model {
+  static init(sequelize, DataTypes) {
+    return super.init(
+      {
+        firstName: {
+          type: DataTypes.STRING(120),
+          allowNull: false,
+        },
+        lastName: {
+          type: DataTypes.STRING(120),
+          allowNull: false,
+        },
+        username: {
+          type: DataTypes.STRING(50),
+          unique: true,
+          allowNull: false,
+        },
+        password: {
+          type: DataTypes.STRING(50),
+          allowNull: false,
+        },
+        email: {
+          type: DataTypes.STRING(120),
+          unique: true,
+          allowNull: false,
+          validate: {
+            isEmail: true,
+          },
+        },
+        nit: {
+          type: DataTypes.STRING(20),
+          allowNull: false,
+        },
+        state: {
+          type: DataTypes.ENUM,
+          values: [ 'ACTIVE', 'INACTIVE' ],
+          defaultValue: 'ACTIVE',
+        },
+      },
+      {
+        tableName: 'Users',
+        sequelize,
+      }
+    );
   }
-  User.init(
-    {
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      email: DataTypes.STRING,
-    },
-    {
-      sequelize,
-      modelName: 'User',
-    }
-  );
-  return User;
-};
+
+  // static associate(models) {
+  //   // define association here
+  // }
+
+  // static getId(where) {
+  //   // como envolver consultas
+  //   return this.findOne({
+  //     where,
+  //     attributes: [ 'id' ],
+  //     order: [ [ 'createdAt', 'DESC' ] ],
+  //   });
+  // }
+}

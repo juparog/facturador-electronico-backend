@@ -5,6 +5,7 @@
 import debug from 'debug';
 import http from 'http';
 import app from '../app';
+import { logger } from '../helpers/console';
 
 // variables de ambiente
 import config from '../config/env/config';
@@ -50,11 +51,11 @@ const onError = (error) => {
   // handle specific listen errors with friendly messages
   switch (error.code) {
   case 'EACCES':
-    alert(`${bind} requires elevated privileges`);
+    debug(`${bind} requires elevated privileges`);
     process.exit(1);
     break;
   case 'EADDRINUSE':
-    alert(`${bind} is already in use`);
+    debug(`${bind} is already in use`);
     process.exit(1);
     break;
   default:
@@ -69,7 +70,7 @@ const onListening = () => {
   const addr = server.address();
   const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
   debug(`Listening on ${bind}`);
-  console.log(`* Servidor escuchando en http://localhost:${addr.port}`);
+  logger.info(`* Servidor escuchando en http://localhost:${addr.port}`);
 };
 /**
  * Listen on provided port, on all network interfaces.

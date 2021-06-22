@@ -2,18 +2,25 @@ language: node_js
 env:
   global:
     - CC_TEST_REPORTER_ID=666daab0ec644a2ffd07a74d7ebb5688a9b926361319688a6608e0302824c3bb
+    - NODE_ENV=test
 matrix:
   include:
   - node_js: '14'
 cache:
   directories: [node_modules]
+before_install:
+  - mysql -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 install:
   yarn
+services:
+  - mysql
 after_success: yarn coverage
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
+  - yarn global add sequelize-cli
+  - sequelize db:migrate
 script:
   - yarn test
 after_script:
