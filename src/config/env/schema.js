@@ -18,6 +18,12 @@ module.exports = {
       default: 'AppName',
       env: 'APP_NAME',
     },
+    secret_key: {
+      doc: 'Llave secreta para realkizar encriptacion.',
+      format: String,
+      default: 'jg8dsyu4kf0sedshf67sg68f8hbnjttj',
+      env: 'APP_SECRET_KEY',
+    },
   },
   db: {
     dialect: {

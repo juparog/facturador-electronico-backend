@@ -15,12 +15,14 @@
     "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "convict": "^6.1.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "fs": "^0.0.1-security",
     "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
     "logging": "^3.3.0",
     "morgan": "~1.9.1",
     "mysql2": "^2.2.5",
