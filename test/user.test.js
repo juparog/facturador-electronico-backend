@@ -2,15 +2,15 @@ import { expect, server, BASE_URL, faker } from './setup';
 
 describe('Test para Usuarios', () => {
   it('crear usuario', (done) => {
-    const firstName = faker.name.firstName();
-    const lastName = faker.name.lastName();
+    const firstName = 'Juan';
+    const lastName = 'Rodriguez';
     const data = {
       firstName,
       lastName,
-      username: faker.internet.userName(firstName, lastName),
-      password: faker.internet.password(8),
-      email: faker.internet.email(firstName, lastName),
-      nit: faker.random.alphaNumeric(10),
+      username: 'juparog',
+      password: 'Abc123456',
+      email: 'juparog@email.com',
+      nit: '1234567890',
     };
     server
       .post(`${BASE_URL}/users`)
