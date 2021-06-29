@@ -24,10 +24,11 @@ export default {
     host: configEnv.get('db.host'),
     port: configEnv.get('db.port'),
     dialect: configEnv.get('db.dialect'),
-    /* dialectOptions: {
+    dialectOptions: {
       ssl: {
-        ca: fs.readFileSync(__dirname + '/mysql-ca-master.crt')
-      }
-    } */
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   },
 };
