@@ -15,6 +15,7 @@
     "heroku-postbuild": "yarn build; export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;"
   },
   "dependencies": {
+    "@babel/runtime": "^7.14.6",
     "bcrypt": "^5.0.1",
     "convict": "^6.1.0",
     "cookie-parser": "~1.4.4",
@@ -37,7 +38,6 @@
     "@babel/plugin-transform-runtime": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
     "@babel/register": "^7.14.5",
-    "@babel/runtime": "^7.14.5",
     "chai": "^4.3.4",
     "coveralls": "^3.1.0",
     "eslint": "^7.28.0",
