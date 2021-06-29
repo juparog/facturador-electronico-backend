@@ -1,14 +1,14 @@
 import jwt from 'jsonwebtoken';
+import randtoken from 'rand-token';
 import { db } from '../models';
 import { logger } from '../helpers/console';
-import config from '../config/env/config';
-import randtoken from 'rand-token';
+import { configEnv } from '../config/env/config';
 
-const refreshTokens = [];
+let refreshTokens = [];
 
 const getToken = (user) => jwt.sign(
   { user: { id: user.id, username: user.username } },
-  config.get('app.secretKey'),
+  configEnv.get('app.secretKey'),
   { expiresIn: '1h' }
 );
 
@@ -27,13 +27,13 @@ const login = async (req, res) => {
       logger.info(' ::: auth.controller.login: Usuario logeado!');
 
       const accessToken = getToken(user);
-      const refreshToken  = randtoken.uid(256);
+      const refreshToken = randtoken.uid(256);
 
-      refreshTokens.push(refreshToken)
+      refreshTokens.push(refreshToken);
 
       res.status(200).json({
         accessToken,
-        refreshToken
+        refreshToken,
       });
     } else {
       logger.error(' ::: auth.controller.login: Contraseña incorrecta: ');
@@ -51,16 +51,19 @@ const authenticate = (req, res, next) => {
   if (authHeader) {
     const token = authHeader.split(' ')[1];
 
-    jwt.verify(token, config.get('app.secretKey'), (err, decode) => {
+    jwt.verify(token, configEnv.get('app.secretKey'), (err) => {
       if (err) {
         logger.info(
           ' ::: auth.controller.authenticate: El token de autenticacion no es valido'
         );
-        res
-          .status(403)
-          .json({ message: 'El token de autenticacion no es valido, por favor inicie sesión' });
+        res.status(403).json({
+          message:
+            'El token de autenticacion no es valido, por favor inicie sesión',
+        });
       } else {
-        logger.info(' ::: auth.controller.authenticate: Autenticacion exitosa!');
+        logger.info(
+          ' ::: auth.controller.authenticate: Autenticacion exitosa!'
+        );
         next();
       }
     });
@@ -74,36 +77,46 @@ const authenticate = (req, res, next) => {
   }
 };
 
-const token =  (req, res) => {
+const token = (req, res) => {
   const { refreshToken, nit, email } = req.body;
   if (!token) {
-    logger.error(' ::: auth.controller.token: Falta el "refreshToken" en la petición');
-    return res.status(401).json({message: 'Falta el "refreshToken" en la petición'});
+    logger.error(
+      ' ::: auth.controller.token: Falta el "refreshToken" en la petición'
+    );
+    res.status(401).json({ message: 'Falta el "refreshToken" en la petición' });
   }
 
   if (!refreshTokens.includes(refreshToken)) {
-    logger.error(' ::: auth.controller.token: El "refreshToken" no es valido, por favor inicie sesión');
-    return res.status(403).json('El "refreshToken" no es valido, por favor inicie sesión');
+    logger.error(
+      ' ::: auth.controller.token: El "refreshToken" no es valido, por favor inicie sesión'
+    );
+    res
+      .status(403)
+      .json('El "refreshToken" no es valido, por favor inicie sesión');
   }
 
-  const accessToken = getToken({nit, email});
+  const accessToken = getToken({ nit, email });
   logger.info(' ::: auth.controller.token: Nuevo token generado correctamente');
   res.json({
-    accessToken
+    accessToken,
   });
 };
 
-const logout =  (req, res) => {
+const logout = (req, res) => {
   const { refreshToken } = req.body;
 
   if (!token) {
-    logger.error(' ::: auth.controller.token: Falta el "refreshToken" en la petición');
-    return res.status(401).json({message: 'Falta el "refreshToken" en la petición'});
+    logger.error(
+      ' ::: auth.controller.token: Falta el "refreshToken" en la petición'
+    );
+    res.status(401).json({ message: 'Falta el "refreshToken" en la petición' });
   }
 
-  refreshTokens = refreshTokens.filter(token => t !== refreshToken);
+  refreshTokens = refreshTokens.filter((t) => t !== refreshToken);
   logger.info(' ::: auth.controller.token: Session finalizada!');
-  res.status(200).json({message:'Session finalizada!'});
+  res.status(200).json({ message: 'Session finalizada!' });
 };
 
-export { login, authenticate, token, logout };
+export {
+  login, authenticate, token, logout
+};

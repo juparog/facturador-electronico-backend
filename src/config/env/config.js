@@ -31,4 +31,4 @@ logger.info(
   '-------------------------------------------------------------------'
 );
 
-module.exports = config;
+export const configEnv = config;

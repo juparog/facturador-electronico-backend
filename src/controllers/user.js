@@ -29,7 +29,7 @@ const updateUser = async (req, res) => {
         id: req.params.id,
         ...req.body,
       },
-      token: req.newToken
+      token: req.newToken,
     });
   }
   res.status(200).json({ message: 'No se pudo actualizar el usuario' });

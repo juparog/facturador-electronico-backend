@@ -1,4 +1,4 @@
-import configEnv from '../env/config';
+import { configEnv } from '../env/config';
 import mysql from './mysql';
 import postgres from './postgres';
 import { logger } from '../../helpers/console';

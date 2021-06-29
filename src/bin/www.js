@@ -8,7 +8,7 @@ import app from '../app';
 import { logger } from '../helpers/console';
 
 // variables de ambiente
-import config from '../config/env/config';
+import { configEnv } from '../config/env/config';
 
 /**
  * Normalize a port into a number, string, or false.
@@ -30,7 +30,7 @@ const normalizePort = (val) => {
  * Get port from environment and store in Express.
  */
 // const port = normalizePort(process.env.PORT || '3000');
-const port = normalizePort(config.get('port') || '3000');
+const port = normalizePort(configEnv.get('port') || '3000');
 app.set('port', port);
 
 /**

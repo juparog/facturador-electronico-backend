@@ -10,6 +10,6 @@ router.post('/login', login);
 router.post('/token', token);
 
 // Post /api/auth/logout
-router.post('/token', logout);
+router.post('/logout', logout);
 
 export { router };

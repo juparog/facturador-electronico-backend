@@ -1,7 +1,7 @@
 import { db as models } from '../models';
 import { logger } from './console';
 
-const dbSync = async (options = { alter: true }) => {
+const dbSync = async (options) => {
   logger.info(' ::: Sincronizando la base de datos...');
   await models.sequelize.sync(options);
   logger.info(' ::: Sincronizacion completa!');
