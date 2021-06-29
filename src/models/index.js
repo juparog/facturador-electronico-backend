@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import configEnv from '../config/env/config';
+import { configEnv } from '../config/env/config';
 
 // modelos
 import { User } from './user';

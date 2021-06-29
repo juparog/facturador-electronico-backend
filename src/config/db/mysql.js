@@ -1,4 +1,4 @@
-import configEnv from '../env/config';
+import { configEnv } from '../env/config';
 
 export default {
   development: {

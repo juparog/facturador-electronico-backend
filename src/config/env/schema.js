@@ -64,8 +64,8 @@ module.exports = {
     },
     sync: {
       doc: 'Metodo de sincroniizacion para la db.',
-      format: [ '', 'force', 'alter' ],
-      default: '',
+      format: [ '{}', '{force:true}', '{alter:true}' ],
+      default: '{}',
       env: 'DB_SYNC',
     },
   },
