@@ -18,6 +18,7 @@ export default {
     dialect: configEnv.get('db.dialect'),
   },
   production: {
+    useEnvVariable: configEnv.get('db.useEnvVariable'),
     username: configEnv.get('db.user'),
     password: configEnv.get('db.password'),
     database: configEnv.get('db.name'),

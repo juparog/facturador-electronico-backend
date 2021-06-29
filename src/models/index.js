@@ -7,12 +7,21 @@ import { User } from './user';
 const env = configEnv.get('env') || 'development';
 const config = require('../config/db/babelHook')[env];
 
-const sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
-  config
-);
+let sequelize;
+if (config.useEnvVariable && config.useEnvVariable !== '') {
+  let dbUrl = configEnv.getEnv()[config.useEnvVariable];
+  if(!dbUrl){
+    dbUrl = configEnv.get('db.url');
+  }
+  sequelize = new Sequelize(dbUrl, config);
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
+}
 
 // iniciar los modelos
 const models = {
