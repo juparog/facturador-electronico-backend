@@ -10,7 +10,7 @@ const config = require('../config/db/babelHook')[env];
 let sequelize;
 if (config.useEnvVariable && config.useEnvVariable !== '') {
   let dbUrl = configEnv.getEnv()[config.useEnvVariable];
-  if(!dbUrl){
+  if (!dbUrl) {
     dbUrl = configEnv.get('db.url');
   }
   sequelize = new Sequelize(dbUrl, config);
