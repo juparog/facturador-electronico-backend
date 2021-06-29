@@ -68,5 +68,17 @@ module.exports = {
       default: '{}',
       env: 'DB_SYNC',
     },
+    useEnvVariable: {
+      doc: 'Variable para conectarce con una url directamente.',
+      format: String,
+      default: '',
+      env: 'DB_USE_ENV_VARIABLE',
+    },
+    url: {
+      doc: 'Url de conexion a la base de datos.',
+      format: String,
+      default: '',
+      env: 'DB_URL',
+    },
   },
 };
