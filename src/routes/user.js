@@ -29,20 +29,57 @@ const router = Router();
  *        password: password123
  */
 
-// Get /api/users
 /**
- * /api/users:
- *  get:
- *    summary: Retorna la lista de usuarios registrados
- *    responses:
- *      200:
- *        description: Lista de usuarios
- *        constent:
- *          application/json:
- *            schema:
- *              type: array
- *              items:
- *                $ref: '#/components/schemas/users'
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Recupera una lista de usuarios.
+ *     description: Recupera una lista de usuarios. Se pueden enviar querys para filtrar ó ordenar los datos a recuperar, tambien como para paginarlos.
+ *     responses:
+ *       200:
+ *         description: Una lista de usuarios.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: Id del usuario.
+ *                         example: 1
+ *                       firstName:
+ *                         type: string
+ *                         description: Nombre del usuario.
+ *                         example: Lindo
+ *                       lastName:
+ *                         type: string
+ *                         description: Apellido del usuario.
+ *                         example: Hermoso
+ *                       username:
+ *                         type: string
+ *                         description: Usuario.
+ *                         example: lindohermoso
+ *                       password:
+ *                         type: string
+ *                         description: Contraseña del usuario.
+ *                         example: repollo123
+ *                       email:
+ *                         type: string
+ *                         description: Correo del usuario.
+ *                         example: lindohermoso@email.com
+ *                       nit:
+ *                         type: string
+ *                         description: Nit del usuario.
+ *                         example: 1234567890
+ *                       state:
+ *                         type: string
+ *                         description: Estado del usuario.
+ *                         example: ACTIVE
  */
 router.get('/', getListUser);
 
