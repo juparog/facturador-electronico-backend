@@ -14,7 +14,7 @@ const router = Router();
  *       - username
  *       - password
  *       - email
- *       - nit
+ *       - documentNumber
  *       - state
  *     properties:
  *       id:
@@ -41,7 +41,7 @@ const router = Router();
  *         type: string
  *         description: Correo del usuario.
  *         example: lindohermoso@email.com
- *       nit:
+ *       documentNumber:
  *         type: string
  *         description: Nit del usuario.
  *         example: 1234567890

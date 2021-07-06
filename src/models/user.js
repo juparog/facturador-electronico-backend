@@ -29,9 +29,10 @@ export class User extends Model {
             isEmail: true,
           },
         },
-        nit: {
+        documentNumber: {
           type: DataTypes.STRING(20),
           allowNull: false,
+          unique: true,
         },
         state: {
           type: DataTypes.ENUM,
