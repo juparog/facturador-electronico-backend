@@ -18,6 +18,36 @@ module.exports = {
       default: 'AppName',
       env: 'APP_NAME',
     },
+    description: {
+      doc: 'Descripcion de la aplicacion.',
+      format: String,
+      default: 'Api de datos',
+      env: 'APP_DESCRIPTION',
+    },
+    owner: {
+      doc: 'Dueño de la aplicacion.',
+      format: String,
+      default: 'Owner Api',
+      env: 'APP_OWNER',
+    },
+    email: {
+      doc: 'Correo de contacto para la aplicacion.',
+      format: String,
+      default: 'support@api.com',
+      env: 'APP_EMAIL',
+    },
+    url: {
+      doc: 'Url de la aplicacion.',
+      format: String,
+      default: 'http://localhost',
+      env: 'APP_URL',
+    },
+    urlDescription: {
+      doc: 'Descripcion de la url de la aplicacion.',
+      format: String,
+      default: '',
+      env: 'APP_URL_DESCRIPTION',
+    },
     secretKey: {
       doc: 'Llave secreta para realkizar encriptacion.',
       format: String,

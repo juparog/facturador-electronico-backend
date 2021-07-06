@@ -5,10 +5,10 @@ import { router as routerAuth } from './auth';
 
 const indexRouter = express.Router();
 
-indexRouter.get('/', indexPage);
+indexRouter.get('/api', indexPage);
 
-indexRouter.use('/users', authenticate, routerUser);
+indexRouter.use('/api/users', authenticate, routerUser);
 
-indexRouter.use('/auth', routerAuth);
+indexRouter.use('/api/auth', routerAuth);
 
 export default indexRouter;
