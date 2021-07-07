@@ -14,10 +14,10 @@ const getToken = (user) => jwt.sign(
 
 const login = async (req, res) => {
   logger.info(' ::: auth.controller.login');
-  const { nit, email, password } = req.body;
+  const { documentNumber, email, password } = req.body;
 
   const user = await db.User.findOne({
-    where: { nit, email },
+    where: { documentNumber, email },
   });
 
   if (user) {
@@ -41,7 +41,7 @@ const login = async (req, res) => {
     }
   } else {
     logger.error(' ::: auth.controller.login: Usuario ó email incorrecto');
-    res.status(401).json({ message: 'Nit ó email incorrecto' });
+    res.status(401).json({ message: 'documentNumber ó email incorrecto' });
   }
 };
 
@@ -78,7 +78,7 @@ const authenticate = (req, res, next) => {
 };
 
 const token = (req, res) => {
-  const { refreshToken, nit, email } = req.body;
+  const { refreshToken, documentNumber, email } = req.body;
   if (!token) {
     logger.error(
       ' ::: auth.controller.token: Falta el "refreshToken" en la petición'
@@ -95,7 +95,7 @@ const token = (req, res) => {
       .json('El "refreshToken" no es valido, por favor inicie sesión');
   }
 
-  const accessToken = getToken({ nit, email });
+  const accessToken = getToken({ documentNumber, email });
   logger.info(' ::: auth.controller.token: Nuevo token generado correctamente');
   res.json({
     accessToken,
