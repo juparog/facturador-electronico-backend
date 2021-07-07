@@ -12,4 +12,7 @@ router.post('/token', token);
 // Post /api/auth/logout
 router.post('/logout', logout);
 
+// Post /api/auth/forgot_password
+router.post('/forgot_password', logout);
+
 export { router };

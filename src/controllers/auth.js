@@ -1,10 +1,18 @@
 import jwt from 'jsonwebtoken';
 import randtoken from 'rand-token';
+import bcrypt from 'bcrypt';
 import { db } from '../models';
 import { logger } from '../helpers/console';
 import { configEnv } from '../config/env/config';
 
 let refreshTokens = [];
+
+const hashPassword = async (password, password2) => {
+  logger.info(' ::: auth.controller.hashPassword');
+  const isSame = await bcrypt.compare(password2, password);
+  logger.info(` ::: auth.controller.hashPassword: Contraseña comparada [${isSame}]`);
+  return isSame;
+};
 
 const getToken = (user) => jwt.sign(
   { user: { id: user.id, username: user.username } },
@@ -22,8 +30,8 @@ const login = async (req, res) => {
 
   if (user) {
     logger.info(' ::: auth.controller.login: Usuario valido');
-
-    if (user.password === password) {
+    const isSame = await hashPassword(user.password, password);
+    if (isSame) {
       logger.info(' ::: auth.controller.login: Usuario logeado!');
 
       const accessToken = getToken(user);

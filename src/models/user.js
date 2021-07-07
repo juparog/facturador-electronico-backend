@@ -14,7 +14,10 @@ export class User extends Model {
         },
         username: {
           type: DataTypes.STRING(50),
-          unique: true,
+          unique: {
+            args: true,
+            msg: 'El nombre de usuario debe ser unico.',
+          },
           allowNull: false,
         },
         password: {
@@ -26,7 +29,14 @@ export class User extends Model {
           unique: true,
           allowNull: false,
           validate: {
-            isEmail: true,
+            isEmail: {
+              args: true,
+              msg: 'El correo tiene un formato no valido.'
+            },
+            max: {
+                args: 120,
+                msg: 'El correo excede el tamaño de maximo 120 caracteres.'
+            }
           },
         },
         documentNumber: {
