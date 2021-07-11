@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
-import {ValidationError} from 'sequelize';
+import { ValidationError } from 'sequelize';
 import { db } from '../models';
-import {logger} from '../helpers/console';
+import { logger } from '../helpers/console';
 
 const hashPassword = async (password) => {
   logger.info(' ::: auth.controller.hashPassword');
@@ -32,7 +32,6 @@ const getOneUser = async (req, res) => {
 const createUser = async (req, res) => {
   logger.info(' ::: auth.controller.createUser');
   req.body.password = await hashPassword(req.body.password);
-  console.log(req.body);
   if (req.body.password) {
     try {
       const data = await db.User.create(req.body);
@@ -42,14 +41,14 @@ const createUser = async (req, res) => {
         res.status(409).json({ message: 'No se pudo crear el usuario' });
       }
     } catch (error) {
-      if(error instanceof ValidationError) {
-        let errors = [];
-        error.errors.forEach(err => {
-          errors.push(err.message)
+      if (error instanceof ValidationError) {
+        const errors = [];
+        error.errors.forEach((err) => {
+          errors.push(err.message);
         });
-        res.status(400).json({ 
+        res.status(400).json({
           message: 'No se pudo crear el usuario',
-          errors
+          errors,
         });
       }
     }
@@ -77,5 +76,5 @@ const updateUser = async (req, res) => {
 };
 
 export {
-  getListUser, createUser, updateUser, getOneUser
+  getListUser, createUser, updateUser, getOneUser, hashPassword
 };

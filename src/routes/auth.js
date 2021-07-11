@@ -1,5 +1,13 @@
 import { Router } from 'express';
-import { login, token, logout } from '../controllers';
+import {
+  authenticate,
+  login,
+  token,
+  logout,
+  updatePassword,
+  forgotPassword,
+  resetPassword,
+} from '../controllers';
 
 const router = Router();
 
@@ -12,7 +20,13 @@ router.post('/token', token);
 // Post /api/auth/logout
 router.post('/logout', logout);
 
-// Post /api/auth/forgot_password
-router.post('/forgot_password', logout);
+// Post /api/auth/update-password
+router.post('/update-password', authenticate, updatePassword);
+
+// Post /api/auth/forgot-password
+router.post('/forgot-password', forgotPassword);
+
+// Post /api/auth/reset-password
+router.post('/reset-password', resetPassword);
 
 export { router };

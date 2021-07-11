@@ -31,12 +31,12 @@ export class User extends Model {
           validate: {
             isEmail: {
               args: true,
-              msg: 'El correo tiene un formato no valido.'
+              msg: 'El correo tiene un formato no valido.',
             },
             max: {
-                args: 120,
-                msg: 'El correo excede el tamaño de maximo 120 caracteres.'
-            }
+              args: 120,
+              msg: 'El correo excede el tamaño de maximo 120 caracteres.',
+            },
           },
         },
         documentNumber: {
@@ -48,6 +48,9 @@ export class User extends Model {
           type: DataTypes.ENUM,
           values: [ 'ACTIVE', 'INACTIVE' ],
           defaultValue: 'ACTIVE',
+        },
+        passwordResetToken: {
+          type: DataTypes.STRING(1000),
         },
       },
       {

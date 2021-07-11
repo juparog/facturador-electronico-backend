@@ -14,7 +14,7 @@ const swaggerDefinition = {
     },
     contact: {
       name: `${configEnv.get('app.owner')}`,
-      url: `${configEnv.get('app.email')}`,
+      url: `${configEnv.get('app.supportEmail')}`,
     },
   },
   servers: [

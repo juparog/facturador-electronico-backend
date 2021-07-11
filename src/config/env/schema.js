@@ -30,7 +30,7 @@ module.exports = {
       default: 'Owner Api',
       env: 'APP_OWNER',
     },
-    email: {
+    supportEmail: {
       doc: 'Correo de contacto para la aplicacion.',
       format: String,
       default: 'support@api.com',
@@ -53,6 +53,12 @@ module.exports = {
       format: String,
       default: 'jg8dsyu4kf0sedshf67sg68f8hbnjttj',
       env: 'APP_SECRET_KEY',
+    },
+    accessTokenExpirationTime: {
+      doc: 'Tiempo de expiracion para el token de acceso.',
+      format: String,
+      default: '1d',
+      env: 'APP_ACCESS_TOKEN_EXPIRATION_TIME',
     },
   },
   db: {
@@ -109,6 +115,32 @@ module.exports = {
       format: String,
       default: '',
       env: 'DB_URL',
+    },
+  },
+  smtp: {
+    service: {
+      doc: 'Tipo de servicio smtp.',
+      format: [ 'gmail', 'outlook', 'zoho' ],
+      default: 'gmail',
+      env: 'SMTP_SERVICE',
+    },
+    host: {
+      doc: 'Host smtp para enviar el correo.',
+      format: String,
+      default: 'smtp.ethereal.email',
+      env: 'SMTP_HOST',
+    },
+    user: {
+      doc: 'Usuario para la autenticacion smtp.',
+      format: String,
+      default: 'username',
+      env: 'SMTP_USER',
+    },
+    password: {
+      doc: 'Contraseña para la autenticacion smtp.',
+      format: String,
+      default: '',
+      env: 'SMTP_PASSWORD',
     },
   },
 };
