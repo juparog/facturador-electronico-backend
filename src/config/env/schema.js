@@ -60,6 +60,12 @@ module.exports = {
       default: '1d',
       env: 'APP_ACCESS_TOKEN_EXPIRATION_TIME',
     },
+    urlClient: {
+      doc: 'Url del cliente.',
+      format: String,
+      default: 'http://localhost',
+      env: 'APP_URL_CLIENT',
+    },
   },
   db: {
     dialect: {
@@ -141,6 +147,12 @@ module.exports = {
       format: String,
       default: '',
       env: 'SMTP_PASSWORD',
+    },
+    pathResetPassword: {
+      doc: 'Ruta para restablecer la contraseña',
+      format: String,
+      default: 'http://localhost',
+      env: 'APP_SMTP_RESET_PASSWORD',
     },
   },
 };

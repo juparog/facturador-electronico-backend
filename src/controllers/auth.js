@@ -53,7 +53,7 @@ const login = async (req, res) => {
       logger.info(' ::: auth.controller.login: Usuario logeado!');
 
       const accessToken = getToken(
-        user,
+        {user},
         configEnv.get('app.accessTokenExpirationTime')
       );
       const refreshToken = randtoken.uid(256);
@@ -242,7 +242,8 @@ const forgotPassword = async (req, res) => {
     );
     if (num[0] === 1) {
       logger.info(' ::: auth.controller.forgotPassword: token guardado.');
-      sendEmailForgotPassword(req.body.email);
+      // enviar correo
+      sendEmailForgotPassword(user, passwordResetToken);
       logger.info(' ::: auth.controller.forgotPassword: correo enviado.');
       res.status(200).json({
         data: {

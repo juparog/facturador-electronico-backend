@@ -13,7 +13,7 @@ export class User extends Model {
           allowNull: false,
         },
         username: {
-          type: DataTypes.STRING(50),
+          type: DataTypes.STRING(256),
           unique: {
             args: true,
             msg: 'El nombre de usuario debe ser unico.',
