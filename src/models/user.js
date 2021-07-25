@@ -13,8 +13,11 @@ export class User extends Model {
           allowNull: false,
         },
         username: {
-          type: DataTypes.STRING(50),
-          unique: true,
+          type: DataTypes.STRING(256),
+          unique: {
+            args: true,
+            msg: 'El nombre de usuario debe ser unico.',
+          },
           allowNull: false,
         },
         password: {
@@ -26,7 +29,14 @@ export class User extends Model {
           unique: true,
           allowNull: false,
           validate: {
-            isEmail: true,
+            isEmail: {
+              args: true,
+              msg: 'El correo tiene un formato no valido.',
+            },
+            max: {
+              args: 120,
+              msg: 'El correo excede el tamaño de maximo 120 caracteres.',
+            },
           },
         },
         documentNumber: {
@@ -38,6 +48,9 @@ export class User extends Model {
           type: DataTypes.ENUM,
           values: [ 'ACTIVE', 'INACTIVE' ],
           defaultValue: 'ACTIVE',
+        },
+        passwordResetToken: {
+          type: DataTypes.STRING(1000),
         },
       },
       {
