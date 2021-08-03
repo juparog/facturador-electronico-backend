@@ -8,7 +8,7 @@ const userRouter = Router();
 userRouter.post('/login', validation.login, authController.login);
 
 // Post /api/auth/token
-userRouter.post('/token', authController.token);
+userRouter.post('/token', validation.token, authController.token);
 
 // Post /api/auth/logout
 userRouter.post('/logout', authController.logout);

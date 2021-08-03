@@ -141,27 +141,35 @@ const authenticate = (req, res, next) => {
 };
 
 const token = (req, res) => {
+  logger.info(' ::: controller.auth.token');
   const { refreshToken, documentNumber, email } = req.body;
-  if (!token) {
-    logger.error(
-      ' ::: controller.authtoken: Falta el "refreshToken" en la petición'
-    );
-    res.status(401).json({ message: 'Falta el "refreshToken" en la petición' });
-  }
 
   if (!refreshTokens.includes(refreshToken)) {
     logger.error(
-      ' ::: controller.authtoken: El "refreshToken" no es valido, por favor inicie sesión'
+      ' ::: controller.auth.token: El "refreshToken" no es valido, por favor inicie sesión.'
     );
     res
-      .status(403)
-      .json('El "refreshToken" no es valido, por favor inicie sesión');
+      .status(401)
+      .json({
+        success: false,
+        message: 'El "refreshToken" no es valido, por favor inicie sesión.',
+        errors: [
+          {
+            name: 'refreshToken',
+            message: 'El "refreshToken" no es valido.',
+          },
+        ]
+      });
   }
 
   const accessToken = getToken({ documentNumber, email });
-  logger.info(' ::: controller.authtoken: Nuevo token generado correctamente');
-  res.json({
-    accessToken,
+  logger.info(' ::: controller.auth.token: Se genero un nuevo token.');
+  res.status(200).json({
+    success: true,
+    message: 'Se creo un nuevo token.',
+    data: {
+      accessToken
+    }
   });
 };
 
@@ -170,13 +178,13 @@ const logout = (req, res) => {
 
   if (!token) {
     logger.error(
-      ' ::: controller.authtoken: Falta el "refreshToken" en la petición'
+      ' ::: controller.auth.token: Falta el "refreshToken" en la petición'
     );
     res.status(401).json({ message: 'Falta el "refreshToken" en la petición' });
   }
 
   refreshTokens = refreshTokens.filter((t) => t !== refreshToken);
-  logger.info(' ::: controller.authtoken: Session finalizada!');
+  logger.info(' ::: controller.auth.token: Session finalizada!');
   res.status(200).json({ message: 'Session finalizada!' });
 };
 
