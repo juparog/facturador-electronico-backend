@@ -54,7 +54,9 @@ const login = async (req, res) => {
         if (isSame) {
           logger.info(' ::: controller.auth.login: Usuario logeado!.');
           const accessToken = getToken(
-            { user },
+            {
+              user: { documentNumber: user.documentNumber, email: user.email },
+            },
             configEnv.get('app.accessTokenExpirationTime')
           );
           const refreshToken = randtoken.uid(256);
@@ -148,18 +150,16 @@ const token = (req, res) => {
     logger.error(
       ' ::: controller.auth.token: El "refreshToken" no es valido, por favor inicie sesión.'
     );
-    res
-      .status(401)
-      .json({
-        success: false,
-        message: 'El "refreshToken" no es valido, por favor inicie sesión.',
-        errors: [
-          {
-            name: 'refreshToken',
-            message: 'El "refreshToken" no es valido.',
-          },
-        ]
-      });
+    res.status(401).json({
+      success: false,
+      message: 'El "refreshToken" no es valido, por favor inicie sesión.',
+      errors: [
+        {
+          name: 'refreshToken',
+          message: 'El "refreshToken" no es valido.',
+        },
+      ],
+    });
   }
 
   const accessToken = getToken({ documentNumber, email });
@@ -168,24 +168,20 @@ const token = (req, res) => {
     success: true,
     message: 'Se creo un nuevo token.',
     data: {
-      accessToken
-    }
+      accessToken,
+    },
   });
 };
 
 const logout = (req, res) => {
   const { refreshToken } = req.body;
-
-  if (!token) {
-    logger.error(
-      ' ::: controller.auth.token: Falta el "refreshToken" en la petición'
-    );
-    res.status(401).json({ message: 'Falta el "refreshToken" en la petición' });
-  }
-
+  
   refreshTokens = refreshTokens.filter((t) => t !== refreshToken);
-  logger.info(' ::: controller.auth.token: Session finalizada!');
-  res.status(200).json({ message: 'Session finalizada!' });
+  logger.info(' ::: controller.auth.token: Sesion finalizada.');
+  res.status(200).json({
+    success: true,
+    message: 'Sesion finalizada.',
+  });
 };
 
 const updatePassword = async (req, res) => {

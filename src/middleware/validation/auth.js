@@ -29,3 +29,10 @@ export const token = (req, res, next) => {
   };
   validator(req.body, validationRule, {}, (err, status) => reponse412(res, next, err, status));
 };
+
+export const logout = (req, res, next) => {
+  const validationRule = {
+    refreshToken: 'required|string',
+  };
+  validator(req.body, validationRule, {}, (err, status) => reponse412(res, next, err, status));
+};

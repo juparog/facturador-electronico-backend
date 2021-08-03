@@ -11,7 +11,7 @@ userRouter.post('/login', validation.login, authController.login);
 userRouter.post('/token', validation.token, authController.token);
 
 // Post /api/auth/logout
-userRouter.post('/logout', authController.logout);
+userRouter.post('/logout', validation.logout, authController.logout);
 
 // Post /api/auth/update-password
 userRouter.post(
