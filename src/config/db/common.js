@@ -8,6 +8,7 @@ export default {
     host: configEnv.get('db.host'),
     port: configEnv.get('db.port'),
     dialect: configEnv.get('db.dialect'),
+    logging: configEnv.get('db.logging'),
   },
   test: {
     username: configEnv.get('db.user'),
@@ -16,6 +17,7 @@ export default {
     host: configEnv.get('db.host'),
     port: configEnv.get('db.port'),
     dialect: configEnv.get('db.dialect'),
+    logging: configEnv.get('db.logging'),
   },
   production: {
     username: configEnv.get('db.user'),
@@ -24,5 +26,6 @@ export default {
     host: configEnv.get('db.host'),
     port: configEnv.get('db.port'),
     dialect: configEnv.get('db.dialect'),
+    logging: configEnv.get('db.logging'),
   },
 };

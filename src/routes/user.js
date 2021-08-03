@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { getListUser, createUser, updateUser } from '../controllers';
+import * as userController from '../controllers/user';
 
-const router = Router();
+const userRouter = Router();
 
 /**
  * @swagger
@@ -83,7 +83,7 @@ const router = Router();
  *                   description: Mensage de informacion.
  *                   example: No se pudo obtener una lista de usuarios
  */
-router.get('/', getListUser);
+userRouter.get('/', userController.getListUser);
 
 /**
  * @swagger
@@ -121,7 +121,7 @@ router.get('/', getListUser);
  *                   description: Mensage de informacion.
  *                   example: No se pudo crear el usuario.
  */
-router.post('/', createUser);
+userRouter.post('/', userController.createUser);
 
 /**
  * @swagger
@@ -165,7 +165,7 @@ router.post('/', createUser);
  *                   description: Mensage de informacion.
  *                   example: No se pudo actualizar el usuario.
  */
-router.put('/:id', updateUser);
+userRouter.put('/:id', userController.updateUser);
 
 /**
  * @swagger
@@ -204,6 +204,6 @@ router.put('/:id', updateUser);
  *                   description: Mensage de informacion.
  *                   example: No se pudo actualizar el usuario.
  */
-router.delete('/:id', updateUser);
+userRouter.delete('/:id', userController.updateUser);
 
-export { router };
+export default userRouter;

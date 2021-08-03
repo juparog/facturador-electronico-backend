@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import randtoken from 'rand-token';
 import bcrypt from 'bcrypt';
-import { db } from '../models';
+import db from '../models';
 import { logger } from '../helpers/console';
 import { configEnv } from '../config/env/config';
 import { sendEmailForgotPassword } from '../helpers/mail';
@@ -9,85 +9,121 @@ import { sendEmailForgotPassword } from '../helpers/mail';
 let refreshTokens = [];
 
 const comparePassword = async (password, password2) => {
-  logger.info(' ::: auth.controller.comparePassword');
+  logger.info(' ::: controller.authcomparePassword');
   const isSame = await bcrypt.compare(password2, password);
   logger.info(
-    ` ::: auth.controller.comparePassword: Contraseña comparada [${isSame}]`
+    ` ::: controller.authcomparePassword: Contraseña comparada [${isSame}]`
   );
   return isSame;
 };
 
 const hashPassword = async (password) => {
-  logger.info(' ::: auth.controller.hashPassword');
+  logger.info(' ::: controller.authhashPassword');
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
-  logger.info(' ::: auth.controller.hashPassword: Contraseña encriptada');
+  logger.info(' ::: controller.authhashPassword: Contraseña encriptada');
   return hash;
 };
 
 const getToken = (payload, expiresIn = '1d') => jwt.sign(payload, configEnv.get('app.secretKey'), { expiresIn });
 
 const verifiToken = (token) => {
-  logger.info(' ::: auth.controller.verifiToken');
+  logger.info(' ::: controller.authverifiToken');
   let decoded = null;
   try {
     decoded = jwt.verify(token, configEnv.get('app.secretKey'));
   } catch (err) {
-    logger.error(' ::: auth.controller.verifiToken: token no valido');
+    logger.error(' ::: controller.authverifiToken: token no valido');
   }
   return decoded;
 };
 
 const login = async (req, res) => {
-  logger.info(' ::: auth.controller.login');
+  logger.info(' ::: controller.auth.login');
   const { documentNumber, email, password } = req.body;
 
-  const user = await db.User.findOne({
+  db.User.findOne({
     where: { documentNumber, email },
-  });
+  })
+    .then(async (user) => {
+      if (user) {
+        logger.info(
+          ' ::: controller.auth.login: Combinacion documentNumber/email valida.'
+        );
+        const isSame = await comparePassword(user.password, password);
+        if (isSame) {
+          logger.info(' ::: controller.auth.login: Usuario logeado!.');
+          const accessToken = getToken(
+            { user },
+            configEnv.get('app.accessTokenExpirationTime')
+          );
+          const refreshToken = randtoken.uid(256);
 
-  if (user) {
-    logger.info(' ::: auth.controller.login: Usuario valido');
-    const isSame = await comparePassword(user.password, password);
-    if (isSame) {
-      logger.info(' ::: auth.controller.login: Usuario logeado!');
+          refreshTokens.push(refreshToken);
 
-      const accessToken = getToken(
-        {user},
-        configEnv.get('app.accessTokenExpirationTime')
-      );
-      const refreshToken = randtoken.uid(256);
-
-      refreshTokens.push(refreshToken);
-
-      res.status(200).json({
-        accessToken,
-        refreshToken,
+          res.status(200).json({
+            accessToken,
+            refreshToken,
+          });
+        } else {
+          logger.error(' ::: controller.auth.login: Contraseña incorrecta. ');
+          res.status(401).json({
+            success: false,
+            message: 'fallo la autenticación.',
+            errors: [
+              {
+                name: 'password',
+                message: 'Contraseña incorrecta.',
+              },
+            ],
+          });
+        }
+      } else {
+        logger.error(
+          ' ::: controller.auth.login: documentNumber ó email incorrectos.'
+        );
+        res.status(401).json({
+          success: false,
+          message: 'fallo la autenticación.',
+          errors: [
+            {
+              name: 'documentNumber/email',
+              message: 'documentNumber ó email incorrecto.',
+            },
+          ],
+        });
+      }
+    })
+    .catch((err) => {
+      const msg = err.message || 'No se pudo completrar la solicitud.';
+      logger.error(` ::: controller.auth.login: ${msg}`);
+      res.status(500).json({
+        success: false,
+        message: 'fallo la autenticación.',
+        errors: [
+          {
+            name: 'server',
+            message: msg,
+          },
+        ],
       });
-    } else {
-      logger.error(' ::: auth.controller.login: Contraseña incorrecta: ');
-      res.status(401).json({ message: 'Contraseña incorrecta' });
-    }
-  } else {
-    logger.error(' ::: auth.controller.login: Usuario ó email incorrecto');
-    res.status(401).json({ message: 'documentNumber ó email incorrecto' });
-  }
+    });
 };
 
 const authenticate = (req, res, next) => {
-  logger.info(' ::: auth.controller.authenticate');
+  logger.info(' ::: controller.authauthenticate');
   const authHeader = req.headers.authorization;
   if (authHeader) {
     const accessToken = authHeader.split(' ')[1];
     const validAccessToken = verifiToken(accessToken);
     if (validAccessToken) {
-      logger.info(' ::: auth.controller.authenticate: Autenticacion exitosa!');
+      logger.info(' ::: controller.authauthenticate: Autenticacion exitosa!');
 
       req.user = validAccessToken.user;
       next();
     } else {
       logger.info(
-        ' ::: auth.controller.authenticate: El token de autenticacion no es valido'
+        ' ::: controller.authauthenticate: El token de autenticacion no es valido'
       );
       res.status(403).json({
         message:
@@ -96,7 +132,7 @@ const authenticate = (req, res, next) => {
     }
   } else {
     logger.error(
-      ' ::: auth.controller.authenticate: No se encontro el encabezado "authorization"'
+      ' ::: controller.authauthenticate: No se encontro el encabezado "authorization"'
     );
     res
       .status(401)
@@ -108,14 +144,14 @@ const token = (req, res) => {
   const { refreshToken, documentNumber, email } = req.body;
   if (!token) {
     logger.error(
-      ' ::: auth.controller.token: Falta el "refreshToken" en la petición'
+      ' ::: controller.authtoken: Falta el "refreshToken" en la petición'
     );
     res.status(401).json({ message: 'Falta el "refreshToken" en la petición' });
   }
 
   if (!refreshTokens.includes(refreshToken)) {
     logger.error(
-      ' ::: auth.controller.token: El "refreshToken" no es valido, por favor inicie sesión'
+      ' ::: controller.authtoken: El "refreshToken" no es valido, por favor inicie sesión'
     );
     res
       .status(403)
@@ -123,7 +159,7 @@ const token = (req, res) => {
   }
 
   const accessToken = getToken({ documentNumber, email });
-  logger.info(' ::: auth.controller.token: Nuevo token generado correctamente');
+  logger.info(' ::: controller.authtoken: Nuevo token generado correctamente');
   res.json({
     accessToken,
   });
@@ -134,24 +170,24 @@ const logout = (req, res) => {
 
   if (!token) {
     logger.error(
-      ' ::: auth.controller.token: Falta el "refreshToken" en la petición'
+      ' ::: controller.authtoken: Falta el "refreshToken" en la petición'
     );
     res.status(401).json({ message: 'Falta el "refreshToken" en la petición' });
   }
 
   refreshTokens = refreshTokens.filter((t) => t !== refreshToken);
-  logger.info(' ::: auth.controller.token: Session finalizada!');
+  logger.info(' ::: controller.authtoken: Session finalizada!');
   res.status(200).json({ message: 'Session finalizada!' });
 };
 
 const updatePassword = async (req, res) => {
-  logger.info(' ::: auth.controller.updatePassword');
+  logger.info(' ::: controller.authupdatePassword');
   const errors = [];
   if (req.body.newPassword !== req.body.passwordconfirmation) {
     errors.push('La nueva contraseña y la de confirmación no coinciden.');
   } else {
     logger.info(
-      ' ::: auth.controller.updatePassword: validando la contraseña...'
+      ' ::: controller.authupdatePassword: validando la contraseña...'
     );
     let user = await db.User.findOne({
       where: req.user,
@@ -178,7 +214,7 @@ const updatePassword = async (req, res) => {
         );
         if (num[0] === 1) {
           logger.info(
-            ' ::: auth.controller.updatePassword: Contraseña actualizada'
+            ' ::: controller.authupdatePassword: Contraseña actualizada'
           );
           res.status(200).json({
             data: {
@@ -199,7 +235,7 @@ const updatePassword = async (req, res) => {
 
   if (errors.length > 0) {
     logger.error(
-      ' ::: auth.controller.updatePassword: Error actualizando la contraseña: \n',
+      ' ::: controller.authupdatePassword: Error actualizando la contraseña: \n',
       errors
     );
     res.status(409).json({
@@ -210,7 +246,7 @@ const updatePassword = async (req, res) => {
 };
 
 const forgotPassword = async (req, res) => {
-  logger.info(' ::: auth.controller.forgotPassword');
+  logger.info(' ::: controller.authforgotPassword');
   const errors = [];
   let user = await db.User.findOne({
     where: {
@@ -218,7 +254,7 @@ const forgotPassword = async (req, res) => {
     },
   });
   if (user) {
-    logger.info(' ::: auth.controller.forgotPassword: generando el token...');
+    logger.info(' ::: controller.authforgotPassword: generando el token...');
     user = JSON.parse(JSON.stringify(user));
     const payloadToken = {
       user: {
@@ -228,7 +264,7 @@ const forgotPassword = async (req, res) => {
     };
     const passwordResetToken = getToken(payloadToken);
     logger.info(
-      ' ::: auth.controller.forgotPassword: token generado, guardando el token...'
+      ' ::: controller.authforgotPassword: token generado, guardando el token...'
     );
     const num = await db.User.update(
       {
@@ -241,10 +277,10 @@ const forgotPassword = async (req, res) => {
       }
     );
     if (num[0] === 1) {
-      logger.info(' ::: auth.controller.forgotPassword: token guardado.');
+      logger.info(' ::: controller.authforgotPassword: token guardado.');
       // enviar correo
       sendEmailForgotPassword(user, passwordResetToken);
-      logger.info(' ::: auth.controller.forgotPassword: correo enviado.');
+      logger.info(' ::: controller.authforgotPassword: correo enviado.');
       res.status(200).json({
         data: {
           email: user.email,
@@ -259,7 +295,7 @@ const forgotPassword = async (req, res) => {
   }
   if (errors.length > 0) {
     logger.error(
-      ' ::: auth.controller.forgotPassword: Error actualizando la contraseña: \n',
+      ' ::: controller.authforgotPassword: Error actualizando la contraseña: \n',
       errors
     );
     res.status(409).json({
@@ -270,13 +306,13 @@ const forgotPassword = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
-  logger.info(' ::: auth.controller.resetPassword');
+  logger.info(' ::: controller.authresetPassword');
   const errors = [];
   if (req.body.newPassword !== req.body.passwordconfirmation) {
     errors.push('La nueva contraseña y la de confirmación no coinciden.');
   } else {
     logger.info(
-      ' ::: auth.controller.resetPassword: validando el token de acceso...'
+      ' ::: controller.authresetPassword: validando el token de acceso...'
     );
     const validAccessToken = verifiToken(req.body.passwordResetToken);
     if (!validAccessToken) {
@@ -305,7 +341,7 @@ const resetPassword = async (req, res) => {
         );
         if (num[0] === 1) {
           logger.info(
-            ' ::: auth.controller.resetPassword: Contraseña actualizada'
+            ' ::: controller.authresetPassword: Contraseña actualizada'
           );
           res.status(200).json({
             data: {
@@ -323,7 +359,7 @@ const resetPassword = async (req, res) => {
   }
   if (errors.length > 0) {
     logger.error(
-      ' ::: auth.controller.resetPassword: Error actualizando la contraseña: \n',
+      ' ::: controller.authresetPassword: Error actualizando la contraseña: \n',
       errors
     );
     res.status(409).json({

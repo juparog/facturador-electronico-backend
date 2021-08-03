@@ -122,6 +122,12 @@ module.exports = {
       default: '',
       env: 'DB_URL',
     },
+    logging: {
+      doc: 'Impresion del log para las orperaciones en la base de datos.',
+      format: Boolean,
+      default: true,
+      env: 'DB_LOGGING',
+    },
   },
   smtp: {
     service: {
