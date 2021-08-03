@@ -5,7 +5,7 @@ import db from '../models';
 Validator.useLang('es');
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]/;
 
-// Tighten password policy
+// Politica para la contraseña
 Validator.register(
   'password_strict',
   (value) => passwordRegex.test(value),

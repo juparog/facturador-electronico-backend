@@ -17,6 +17,7 @@ userRouter.post('/logout', validation.logout, authController.logout);
 userRouter.post(
   '/update-password',
   authController.authenticate,
+  validation.updatePassword,
   authController.updatePassword
 );
 

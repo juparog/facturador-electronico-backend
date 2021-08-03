@@ -36,3 +36,14 @@ export const logout = (req, res, next) => {
   };
   validator(req.body, validationRule, {}, (err, status) => reponse412(res, next, err, status));
 };
+
+export const updatePassword = (req, res, next) => {
+  const validationRule = {
+    currentPassword: 'required|string|min:8',
+    newPassword: 'required|string|min:8|password_strict|confirmed',
+    passwordConfirm: 'required',
+  };
+  // ajustar la confirmacion de contraseña al formato que acepta validatosjs
+  req.body.newPassword_confirmation = req.body.passwordConfirm;
+  validator(req.body, validationRule, {}, (err, status) => reponse412(res, next, err, status));
+};
