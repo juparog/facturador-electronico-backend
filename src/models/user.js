@@ -44,7 +44,7 @@ export class User extends Model {
           allowNull: false,
           unique: true,
         },
-        state: {
+        status: {
           type: DataTypes.ENUM,
           values: [ 'ACTIVE', 'INACTIVE' ],
           defaultValue: 'ACTIVE',
