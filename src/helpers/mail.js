@@ -45,7 +45,7 @@ import sgMail from '@sendgrid/mail';
 import { logger } from './console';
 import { configEnv } from '../config/env/config';
 
-const sgMailApiKey = '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';
+const sgMailApiKey = configEnv.get('smtp.sendGridApiKey');
 sgMail.setApiKey(sgMailApiKey);
 
 const sendEmailForgotPassword = async (user, passwordResetToken) => {
