@@ -15,7 +15,7 @@ const swaggerDefinition = {
     contact: {
       name: `${configEnv.get('app.owner')}`,
       url: `${configEnv.get('app.supportEmail')}`,
-    },
+    }
   },
   servers: [
     {
@@ -28,7 +28,9 @@ const swaggerDefinition = {
 const options = {
   swaggerDefinition,
   // Paths to files containing OpenAPI definitions
-  apis: [ `${path.join(__dirname, '../../routes/*.js')}` ],
+  apis: [
+    `${path.join(__dirname, '../../docs/*.yaml')}`
+  ],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

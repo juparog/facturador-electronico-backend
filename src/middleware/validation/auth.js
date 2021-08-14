@@ -1,8 +1,8 @@
 import { validator } from '../../helpers/validate';
 
-const reponse412 = (res, next, err, status) => {
+const response400 = (res, next, err, status) => {
   if (!status) {
-    res.status(412).json({
+    res.status(400).json({
       success: false,
       message: 'Validacion fallida',
       errors: err,
@@ -18,7 +18,7 @@ export const login = (req, res, next) => {
     email: 'required|email|exists:Users,email',
     password: 'required|string|min:8',
   };
-  validator(req.body, validationRule, {}, (err, status) => reponse412(res, next, err, status));
+  validator(req.body, validationRule, {}, (err, status) => response400(res, next, err, status));
 };
 
 export const token = (req, res, next) => {
@@ -27,14 +27,14 @@ export const token = (req, res, next) => {
     documentNumber: 'required|string|exists:Users,documentNumber',
     email: 'required|email|exists:Users,email',
   };
-  validator(req.body, validationRule, {}, (err, status) => reponse412(res, next, err, status));
+  validator(req.body, validationRule, {}, (err, status) => response400(res, next, err, status));
 };
 
 export const logout = (req, res, next) => {
   const validationRule = {
     refreshToken: 'required|string',
   };
-  validator(req.body, validationRule, {}, (err, status) => reponse412(res, next, err, status));
+  validator(req.body, validationRule, {}, (err, status) => response400(res, next, err, status));
 };
 
 export const updatePassword = (req, res, next) => {
@@ -45,5 +45,23 @@ export const updatePassword = (req, res, next) => {
   };
   // ajustar la confirmacion de contraseña al formato que acepta validatosjs
   req.body.newPassword_confirmation = req.body.passwordConfirm;
-  validator(req.body, validationRule, {}, (err, status) => reponse412(res, next, err, status));
+  validator(req.body, validationRule, {}, (err, status) => response400(res, next, err, status));
+};
+
+export const forgotPassword = (req, res, next) => {
+  const validationRule = {
+    email: 'required|email|exists:Users,email',
+  };
+  validator(req.body, validationRule, {}, (err, status) => response400(res, next, err, status));
+};
+
+export const resetPassword = (req, res, next) => {
+  const validationRule = {
+    newPassword: 'required|string|min:8|password_strict|confirmed',
+    passwordConfirm: 'required',
+    passwordResetToken: 'required|string|exists:Users,passwordResetToken',
+  };
+  // ajustar la confirmacion de contraseña al formato que acepta validatosjs
+  req.body.newPassword_confirmation = req.body.passwordConfirm;
+  validator(req.body, validationRule, {}, (err, status) => response400(res, next, err, status));
 };

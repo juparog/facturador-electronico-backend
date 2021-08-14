@@ -1,0 +1,401 @@
+tags:
+- name: Autenticacion
+  description: Operaciones autenticarce
+paths:
+  /api/auth/login:
+    post:
+      summary: Iniciar sesion.
+      description: Enviar credenciales de usuario y solicitar un token de sesion.
+      tags:
+        - Autenticacion
+      parameters:
+        - in: body
+          name: credenciales
+          description: Las credenciales del usuario.
+          schema:
+            type: object
+            required:
+              - documentNumber
+              - email
+              - password
+            properties:
+              documentNumber:
+                type: string
+                description: Documento de indentidad del usuario.
+                example: 1234567890
+              email:
+                type: email
+                description: Email del usuario.
+                example: amantedelacomida59@email.com
+              password:
+                type: string
+                description: Contraseña del usuario.
+                example: Empanada_pollo_$1500
+      responses:
+        200:
+          description: El token de sesion y un token para actualizar el token de sesion.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                properties:
+                  success:
+                    type: bool
+                    description: Estado de la respuesta.
+                    example: true
+                  message:
+                    type: string
+                    description: Informacion de la respuesta.
+                    example: Login exitoso.
+                  data:
+                    type: object
+                    description: Token de respuesta.
+                    required:
+                      - accessToken
+                      - refreshToken
+                    properties:
+                      accessToken:
+                        type: string
+                        description: Token de acceso para la sesion del usuario.
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.Ajfkd87i9shfgjgfdgkjhfd900hkhgf_$$jkhhsdfh.bBx-2IJUCqkaq4mWs1ZlqBs7cu1RSClt68sEaHY_svc
+                      refreshToken:
+                        type: string
+                        description:
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.Ajfkd87i9shfgjgfdgkjhfd900hkhgf_$$jkhhsdfh.bBx-2IJUCqkaq4mWs1ZlqBs7cu1RSClt68sEaHY_svc
+        400:
+          description: Una estructura con los errores en la solicitud por parte del cliente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response400'
+        401:
+          description: Una estructura con los errores en la solicitud por parte del cliente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response401'
+        500:
+          description: Una estructura con los errores en la solicitud por parte del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response500'
+  /api/auth/token:
+    post:
+      summary: Renovar token de acceso.
+      description: Enviar un token de actualizacion y obtener un nuevo token de acceso.
+      tags:
+        - Autenticacion
+      parameters:
+        - in: header
+          name: Authorization
+          description: El token de acceso del usuario.
+          schema:
+            type: string
+            example: Basic ZGVtbzpwQDU1dzByZA==
+          required: true
+        - in: body
+          name: credenciales
+          description: Las credenciales del usuario para actualizar el token.
+          schema:
+            type: object
+            required:
+              - refreshToken
+              - documentNumber
+              - email
+            properties:
+              refreshToken:
+                type: string
+                description: Token de actualizacion.
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.Ajfkd87i9shfgjgfdgkjhfd900hkhgf_$$jkhhsdfh.bBx-2IJUCqkaq4mWs1ZlqBs7cu1RSClt68sEaHY_svc
+              documentNumber:
+                type: string
+                description: Documento de indentidad del usuario.
+                example: 1234567890
+              email:
+                type: email
+                description: Email del usuario.
+                example: amantedelacomida59@email.com
+      responses:
+        200:
+          description: Un nuevo token de sesion.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                properties:
+                  success:
+                    type: bool
+                    description: Estado de la respuesta.
+                    example: true
+                  message:
+                    type: string
+                    description: Informacion de la respuesta.
+                    example: Se creo un nuevo token.
+                  data:
+                    type: object
+                    description: Token de respuesta.
+                    required:
+                      - accessToken
+                    properties:
+                      accessToken:
+                        type: string
+                        description: Token de acceso para la sesion del usuario.
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.Ajfkd87i9shfgjgfdgkjhfd900hkhgf_$$jkhhsdfh.bBx-2IJUCqkaq4mWs1ZlqBs7cu1RSClt68sEaHY_svc
+        400:
+          description: Una estructura con los errores en la solicitud por parte del cliente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response400'
+        401:
+          description: Una estructura con los errores en la solicitud por parte del cliente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response401'
+        500:
+          description: Una estructura con los errores en la solicitud por parte del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response500'
+  /api/auth/logout:
+    post:
+      summary: Cerrar sesión.
+      description: Cerrar la sesion del usuario.
+      tags:
+        - Autenticacion
+      parameters:
+        - in: body
+          name: credenciales
+          description: Las credenciales del usuario para cerrar la sesión.
+          schema:
+            type: object
+            required:
+              - refreshToken
+            properties:
+              refreshToken:
+                type: string
+                description: Token de actualizacion.
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.Ajfkd87i9shfgjgfdgkjhfd900hkhgf_$$jkhhsdfh.bBx-2IJUCqkaq4mWs1ZlqBs7cu1RSClt68sEaHY_svc
+      responses:
+        200:
+          description: Un nuevo token de sesion.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                properties:
+                  success:
+                    type: bool
+                    description: Estado de la respuesta.
+                    example: true
+                  message:
+                    type: string
+                    description: Informacion de la respuesta.
+                    example: Sesion finalizada.
+        400:
+          description: Una estructura con los errores en la solicitud por parte del cliente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response400'
+        500:
+          description: Una estructura con los errores en la solicitud por parte del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response500'
+  /api/auth/update-password:
+    post:
+      summary: Actualizar contraseña.
+      description: Actualizar la contraseña de un usuario.
+      tags:
+        - Autenticacion
+      parameters:
+        - in: header
+          name: Authorization
+          description: El token de acceso del usuario.
+          schema:
+            type: string
+            example: Basic ZGVtbzpwQDU1dzByZA==
+          required: true
+        - in: body
+          name: credenciales
+          description: Las credenciales del usuario para actualizar la contraseña.
+          schema:
+            type: object
+            required:
+              - currentPassword
+              - newPassword
+              - passwordConfirm
+            properties:
+              currentPassword:
+                type: string
+                description: Contraseña actual del usuario.
+                example: Empanada_1500
+              newPassword:
+                type: string
+                description: Nueva contraseña.
+                example: repollo123*
+              passwordConfirm:
+                type: string
+                description: Confirmacion de la nueva contraseña.
+                example: repollo123*
+      responses:
+        200:
+          description: Un nuevo token de sesion.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                properties:
+                  success:
+                    type: bool
+                    description: Estado de la respuesta.
+                    example: true
+                  message:
+                    type: string
+                    description: Informacion de la respuesta.
+                    example: Solicitud completada.
+        400:
+          description: Una estructura con los errores en la solicitud por parte del cliente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response400'
+        401:
+          description: Una estructura con los errores en la solicitud por parte del cliente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response401'
+        500:
+          description: Una estructura con los errores en la solicitud por parte del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response500'
+  /api/auth/forgot-password:
+    post:
+      summary: Actualizar contraseña por correo.
+      description: Actualizar la contraseña de un usuario a traves de correo electronico.
+      tags:
+        - Autenticacion
+      parameters:
+        - in: body
+          name: credenciales
+          description: Las credenciales del usuario para actualizar la contraseña.
+          schema:
+            type: object
+            required:
+              - email
+            properties:
+              email:
+                type: email
+                description: Email del usuario.
+                example: amantedelacomida59@email.com
+      responses:
+        200:
+          description: Un nuevo token de sesion.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                properties:
+                  success:
+                    type: bool
+                    description: Estado de la respuesta.
+                    example: true
+                  message:
+                    type: string
+                    description: Informacion de la respuesta.
+                    example: Solicitud completada.
+        400:
+          description: Una estructura con los errores en la solicitud por parte del cliente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response400'
+        500:
+          description: Una estructura con los errores en la solicitud por parte del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response500'
+  /api/auth/reset-password:
+    post:
+      summary: Restablecer la contraseña.
+      description: Restablecer la contraseña a traves del link enviado al correo.
+      tags:
+        - Autenticacion
+      parameters:
+        - in: body
+          name: credenciales
+          description: Las credenciales del usuario para actualizar la contraseña.
+          schema:
+            type: object
+            required:
+              - newPassword
+              - passwordConfirm
+              - passwordResetToken
+            properties:
+              newPassword:
+                type: string
+                description: Nueva contraseña.
+                example: repollo123*
+              passwordConfirm:
+                type: string
+                description: Confirmacion de la nueva contraseña.
+                example: repollo123*
+              passwordResetToken:
+                type: string
+                description: Token de restablecimiento de contraseña.
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.Ajfkd87i9shfgjgfdgkjhfd900hkhgf_$$jkhhsdfh.bBx-2IJUCqkaq4mWs1ZlqBs7cu1RSClt68sEaHY_svc
+      responses:
+        200:
+          description: Un nuevo token de sesion.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                properties:
+                  success:
+                    type: bool
+                    description: Estado de la respuesta.
+                    example: true
+                  message:
+                    type: string
+                    description: Informacion de la respuesta.
+                    example: Solicitud completada.
+        400:
+          description: Una estructura con los errores en la solicitud por parte del cliente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response400'
+        500:
+          description: Una estructura con los errores en la solicitud por parte del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response500'

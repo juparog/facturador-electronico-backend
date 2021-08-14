@@ -8,7 +8,12 @@ const userRouter = Router();
 userRouter.post('/login', validation.login, authController.login);
 
 // Post /api/auth/token
-userRouter.post('/token', validation.token, authController.token);
+userRouter.post(
+  '/token',
+  authController.authenticate,
+  validation.token,
+  authController.token
+);
 
 // Post /api/auth/logout
 userRouter.post('/logout', validation.logout, authController.logout);
@@ -22,9 +27,17 @@ userRouter.post(
 );
 
 // Post /api/auth/forgot-password
-userRouter.post('/forgot-password', authController.forgotPassword);
+userRouter.post(
+  '/forgot-password',
+  validation.forgotPassword,
+  authController.forgotPassword
+);
 
 // Post /api/auth/reset-password
-userRouter.post('/reset-password', authController.resetPassword);
+userRouter.post(
+  '/reset-password',
+  validation.resetPassword,
+  authController.resetPassword
+);
 
 export default userRouter;

@@ -38,6 +38,36 @@ const verifiToken = (token) => {
   return decoded;
 };
 
+const updateUser = (body, query, res) => {
+  logger.info(' ::: controller.auth.updateUser');
+  db.User.update(body, {
+    where: query,
+  })
+    .then((num) => {
+      logger.info(
+        ` ::: controller.auth.updateUser: Actualización ${
+          num < 1 ? 'fallida' : 'exitosa'
+        }.`
+      );
+      // // enviar correo
+      // sendEmailForgotPassword(user, passwordResetToken);
+      // logger.info(' ::: controller.auth.updateUser: correo enviado.');
+      res.status(200).json({
+        success: true,
+        message: `Solicitud${num < 1 ? ' NO' : ''} completada.`,
+      });
+    })
+    .catch((err) => {
+      logger.error(
+        ' ::: controller.auth.updateUser: Fallo la actualizacion. ',
+        err
+      );
+      throw new Error(
+        'Error intentando actualizar el usuario en la base de datos.'
+      );
+    });
+};
+
 const login = async (req, res) => {
   logger.info(' ::: controller.auth.login');
   const { documentNumber, email, password } = req.body;
@@ -131,12 +161,12 @@ const authenticate = (req, res, next) => {
       logger.info(
         ' ::: controller.auth.authenticate: El token de autenticacion no es valido, por favor inicie sesión.'
       );
-      res.status(403).json({
+      res.status(400).json({
         success: false,
         message: 'Error de autenticación.',
         errors: [
           {
-            name: 'header',
+            name: 'token',
             message:
               'El token de autenticacion no es valido, por favor inicie sesión.',
           },
@@ -153,7 +183,7 @@ const authenticate = (req, res, next) => {
       errors: [
         {
           name: 'header',
-          message: 'No se encontro el encabezado "authorization".',
+          message: 'No se encontro el encabezado <Authorization>.',
         },
       ],
     });
@@ -168,13 +198,13 @@ const token = (req, res) => {
     logger.error(
       ' ::: controller.auth.token: El "refreshToken" no es valido, por favor inicie sesión.'
     );
-    res.status(403).json({
+    res.status(401).json({
       success: false,
       message: 'El "refreshToken" no es valido, por favor inicie sesión.',
       errors: [
         {
           name: 'refreshToken',
-          message: 'El "refreshToken" no es valido.',
+          message: 'El refreshToken no es valido.',
         },
       ],
     });
@@ -216,34 +246,7 @@ const updatePassword = async (req, res) => {
         );
         if (isSame) {
           req.body.newPassword = await hashPassword(req.body.newPassword);
-          db.User.update(
-            {
-              password: req.body.newPassword,
-            },
-            {
-              where: req.user,
-            }
-          )
-            .then((num) => {
-              logger.info(
-                ` ::: controller.auth.updatePassword: Contraseña ${
-                  num < 1 ? 'NO' : null
-                } actualizada`
-              );
-              res.status(200).json({
-                success: true,
-                message: `Contraseña${num < 1 ? ' NO' : ''} actualizada`,
-              });
-            })
-            .catch((err) => {
-              logger.error(
-                ' ::: controller.auth.updatePassword: Fallo la actualizacion de contraseña. ',
-                err
-              );
-              throw new Error(
-                'Error intentando actualizar la contraseña en la base de datos.'
-              );
-            });
+          updateUser({ password: req.body.newPassword }, req.user, res);
         } else {
           logger.error(
             ' ::: controller.auth.updatePassword: La contraseña actual del usuario no coincide.'
@@ -295,125 +298,130 @@ const updatePassword = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
   logger.info(' ::: controller.auth.forgotPassword');
-  const errors = [];
-  let user = await db.User.findOne({
+  db.User.findOne({
     where: {
       email: req.body.email,
     },
-  });
-  if (user) {
-    logger.info(' ::: controller.auth.forgotPassword: generando el token..');
-    user = JSON.parse(JSON.stringify(user));
-    const payloadToken = {
-      user: {
-        id: user.id,
-        username: user.username,
-      },
-    };
-    const passwordResetToken = getToken(payloadToken);
-    logger.info(
-      ' ::: controller.auth.forgotPassword: token generado, guardando el token..'
-    );
-    const num = await db.User.update(
-      {
-        passwordResetToken,
-      },
-      {
-        where: {
-          email: req.body.email,
-        },
+  })
+    .then((user) => {
+      if (user) {
+        const userJson = JSON.parse(JSON.stringify(user));
+        logger.info(' ::: controller.auth.forgotPassword: Generando el token.');
+        const payloadToken = {
+          user: {
+            id: userJson.id,
+            username: userJson.username,
+          },
+        };
+        const passwordResetToken = getToken(payloadToken);
+        logger.info(
+          ' ::: controller.auth.forgotPassword: token generado, guardando el token..'
+        );
+        updateUser({ passwordResetToken }, { email: req.body.email }, res);
+        // enviar correo
+        sendEmailForgotPassword(user, passwordResetToken);
+        logger.info(' ::: controller.auth.forgotPassword: correo enviado.');
+      } else {
+        logger.error(
+          ' ::: controller.auth.forgotPassword: No se pudo recuperar el usuario en la base de datos.'
+        );
+        res.status(400).json({
+          success: false,
+          message: 'Fallo la recuperacion de contraseña.',
+          errors: [
+            {
+              name: 'user',
+              message: 'No se pudo completar la solicitud.',
+            },
+          ],
+        });
       }
-    );
-    if (num[0] === 1) {
-      logger.info(' ::: controller.auth.forgotPassword: token guardado.');
-      // enviar correo
-      sendEmailForgotPassword(user, passwordResetToken);
-      logger.info(' ::: controller.auth.forgotPassword: correo enviado.');
-      res.status(200).json({
-        data: {
-          email: user.email,
-          passwordResetToken,
-        },
+    })
+    .catch((err) => {
+      logger.error(
+        ' ::: controller.auth.forgotPassword: Fallo la recuperacion de contraseña. ',
+        err
+      );
+      res.status(500).json({
+        success: false,
+        message: 'Fallo la recuperacion de contraseña.',
+        errors: [
+          {
+            name: 'server',
+            message: 'No se pudo completar la solicitud.',
+          },
+        ],
       });
-    } else {
-      errors.push('No se pudo guardar el token de recuperacion de contraseña.');
-    }
-  } else {
-    errors.push('El email no se encuentra registrado.');
-  }
-  if (errors.length > 0) {
-    logger.error(
-      ' ::: controller.auth.forgotPassword: Error actualizando la contraseña: \n',
-      errors
-    );
-    res.status(409).json({
-      message: 'No se pudo realizar el proceso de recuperacion de contraseña',
-      errors,
     });
-  }
 };
 
 const resetPassword = async (req, res) => {
   logger.info(' ::: controller.auth.resetPassword');
-  const errors = [];
-  if (req.body.newPassword !== req.body.passwordconfirmation) {
-    errors.push('La nueva contraseña y la de confirmación no coinciden.');
-  } else {
-    logger.info(
-      ' ::: controller.auth.resetPassword: validando el token de acceso..'
-    );
-    const validAccessToken = verifiToken(req.body.passwordResetToken);
-    if (!validAccessToken) {
-      errors.push('El token no es valido.');
-    } else {
-      let user = await db.User.findOne({
-        where: {
-          passwordResetToken: req.body.passwordResetToken,
-        },
-      });
-
-      if (user) {
-        user = JSON.parse(JSON.stringify(user));
-
-        req.body.newPassword = await hashPassword(req.body.newPassword);
-        const num = await db.User.update(
-          {
-            password: req.body.newPassword,
-            passwordResetToken: null,
-          },
-          {
-            where: {
-              id: user.id,
-            },
-          }
-        );
-        if (num[0] === 1) {
-          logger.info(
-            ' ::: controller.auth.resetPassword: Contraseña actualizada'
-          );
-          res.status(200).json({
-            data: {
-              id: user.id,
-              username: user.username,
-            },
-          });
-        } else {
-          errors.push('No se pudo encontrar el usuario en la base de datos.');
-        }
-      } else {
-        errors.push('No se pudo recuperar los datos del usuario.');
-      }
-    }
-  }
-  if (errors.length > 0) {
+  const validAccessToken = verifiToken(req.body.passwordResetToken);
+  if (!validAccessToken) {
     logger.error(
-      ' ::: controller.auth.resetPassword: Error actualizando la contraseña: \n',
-      errors
+      ' ::: controller.auth.resetPassword: el passwordResetToken no es valido.'
     );
-    res.status(409).json({
-      message: 'No se pudo realizar el proceso para restablecer la contraseña',
-      errors,
+    res.status(400).json({
+      success: false,
+      message: 'Fallo el restablecimiento de contraseña.',
+      errors: [
+        {
+          name: 'passwordResetToken',
+          message: 'El passwordResetToken no es valido.',
+        },
+      ],
     });
+  } else {
+    db.User.findOne({
+      where: {
+        passwordResetToken: req.body.passwordResetToken,
+      },
+    })
+      .then(async (user) => {
+        if (user) {
+          const userJson = JSON.parse(JSON.stringify(user));
+          req.body.newPassword = await hashPassword(req.body.newPassword);
+          updateUser(
+            {
+              password: req.body.newPassword,
+              passwordResetToken: null,
+            },
+            { id: userJson.id },
+            res
+          );
+        } else {
+          logger.error(
+            ' ::: controller.auth.resetPassword: No se pudo recuperar el usuario en la base de datos.'
+          );
+          res.status(400).json({
+            success: false,
+            message: 'Fallo el restablecimiento de contraseña.',
+            errors: [
+              {
+                name: 'user',
+                message: 'No se pudo completar la solicitud.',
+              },
+            ],
+          });
+        }
+      })
+      .catch((err) => {
+        logger.error(
+          ' ::: controller.auth.resetPassword: Fallo la recuperacion de contraseña. ',
+          err
+        );
+        res.status(500).json({
+          success: false,
+          message: 'Fallo el restablecimiento de contraseña.',
+          errors: [
+            {
+              name: 'server',
+              message: 'No se pudo completar la solicitud.',
+            },
+          ],
+        });
+      });
   }
 };
 
