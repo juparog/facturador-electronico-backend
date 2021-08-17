@@ -38,7 +38,7 @@ const verifiToken = (token) => {
   return decoded;
 };
 
-const updateUser = (body, query, res) => {
+const updateUser = (body, query, res, passwordResetToken) => {
   logger.info(' ::: controller.auth.updateUser');
   db.User.update(body, {
     where: query,
@@ -52,9 +52,14 @@ const updateUser = (body, query, res) => {
       // // enviar correo
       // sendEmailForgotPassword(user, passwordResetToken);
       // logger.info(' ::: controller.auth.updateUser: correo enviado.');
+      let data;
+      if (passwordResetToken) {
+        data = { passwordResetToken };
+      }
       res.status(200).json({
         success: true,
         message: `Solicitud${num < 1 ? ' NO' : ''} completada.`,
+        data,
       });
     })
     .catch((err) => {
@@ -317,7 +322,12 @@ const forgotPassword = async (req, res) => {
         logger.info(
           ' ::: controller.auth.forgotPassword: token generado, guardando el token..'
         );
-        updateUser({ passwordResetToken }, { email: req.body.email }, res);
+        updateUser(
+          { passwordResetToken },
+          { email: req.body.email },
+          res,
+          passwordResetToken
+        );
         // enviar correo
         sendEmailForgotPassword(user, passwordResetToken);
         logger.info(' ::: controller.auth.forgotPassword: correo enviado.');

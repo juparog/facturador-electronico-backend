@@ -54,7 +54,7 @@ const sendEmailForgotPassword = async (user, passwordResetToken) => {
     to: user.email,
     from: {
       name: configEnv.get('app.name'),
-      email: configEnv.get('smtp.user')
+      email: configEnv.get('smtp.user'),
     },
     templateId: configEnv.get('smtp.templateId'),
     dynamic_template_data: {
@@ -62,8 +62,8 @@ const sendEmailForgotPassword = async (user, passwordResetToken) => {
       link: `${configEnv.get('app.url')}/${configEnv.get(
         'smtp.pathResetPassword'
       )}/${passwordResetToken}`,
-      date: new Date()
-    }
+      date: new Date(),
+    },
   };
   sgMail
     .send(msg)

@@ -327,6 +327,16 @@ paths:
                     type: string
                     description: Informacion de la respuesta.
                     example: Solicitud completada.
+                  data:
+                    type: object
+                    description: Token de respuesta.
+                    required:
+                      - passwordResetToken
+                    properties:
+                      passwordResetToken:
+                        type: string
+                        description: Token para restablecer la contraseña.
+                        example: yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6I
         400:
           description: Una estructura con los errores en la solicitud por parte del cliente.
           content:
