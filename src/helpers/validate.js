@@ -3,7 +3,7 @@ import { QueryTypes } from 'sequelize';
 import db from '../models';
 
 Validator.useLang('es');
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]/;
+const passwordRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))/;
 
 // Politica para la contraseña
 Validator.register(
