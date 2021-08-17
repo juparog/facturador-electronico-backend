@@ -39,7 +39,7 @@ export const logout = (req, res, next) => {
 
 export const updatePassword = (req, res, next) => {
   const validationRule = {
-    currentPassword: 'required|string|min:8',
+    currentPassword: 'required|string',
     newPassword: 'required|string|min:8|password_strict|confirmed',
     passwordConfirm: 'required',
   };

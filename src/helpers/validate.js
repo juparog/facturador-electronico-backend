@@ -17,10 +17,10 @@ Validator.register(
  * por ejemplo, email: required|email|exists:User,email
  */
 Validator.registerAsync('exists', async (value, attribute, req, passes) => {
-  if (!attribute) throw new Error('Specify Requirements i.e fieldName: exist:table,column');
+  if (!attribute) throw new Error('Especifique los requisitos, es decir, fieldName: exist:table,column');
   // dividir tabla y columna
   const attArr = attribute.split(',');
-  if (attArr.length !== 2) throw new Error(`Invalid format for validation rule on ${attribute}`);
+  if (attArr.length !== 2) throw new Error(`Formato no válido para la regla de validación en ${attribute}`);
 
   // asignar el índice de matriz 0 y 1 a la tabla y la columna respectivamente
   const { 0: table, 1: column } = attArr;

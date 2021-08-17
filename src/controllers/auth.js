@@ -251,7 +251,7 @@ const updatePassword = async (req, res) => {
           logger.error(
             ' ::: controller.auth.updatePassword: La contraseña actual del usuario no coincide.'
           );
-          res.status(401).json({
+          res.status(400).json({
             success: false,
             message: 'Fallo la actualizacion de contraseña.',
             errors: [
