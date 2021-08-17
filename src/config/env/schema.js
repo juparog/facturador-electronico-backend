@@ -158,7 +158,19 @@ module.exports = {
       doc: 'Ruta para restablecer la contraseña',
       format: String,
       default: 'http://localhost',
-      env: 'APP_SMTP_RESET_PASSWORD',
+      env: 'SMTP_RESET_PASSWORD',
+    },
+    templateId: {
+      doc: 'Id del template en email sendgrid/mail',
+      format: String,
+      default: '1-myTemplateId1234',
+      env: 'SMTP_TEMPLATE_ID_SENDGRID',
+    },
+    sendGridApiKey: {
+      doc: 'Id del template en email sendgrid/mail',
+      format: String,
+      default: 'apyKeysengrid-email12746',
+      env: 'SMTP_API_KEY_SENDGRID',
     },
   },
 };
