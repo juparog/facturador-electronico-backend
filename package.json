@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.14.6",
+    "@sendgrid/mail": "^7.4.6",
     "bcrypt": "^5.0.1",
     "convict": "^6.1.0",
     "cookie-parser": "~1.4.4",
@@ -40,6 +41,7 @@
     "sequelize": "^6.6.2",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6",
+    "validatorjs": "^3.22.1",
     "webpack-merge": "^5.8.0"
   },
   "devDependencies": {

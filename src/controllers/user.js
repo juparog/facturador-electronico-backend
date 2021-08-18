@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { ValidationError } from 'sequelize';
-import { db } from '../models';
+import db from '../models';
 import { logger } from '../helpers/console';
 
 const hashPassword = async (password) => {

@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import { configEnv } from '../config/env/config';
+import { logger } from '../helpers/console';
 
 // modelos
 import { User } from './user';
@@ -38,7 +39,23 @@ const db = {
   sequelize,
 };
 
+const connect = async () => sequelize
+  .authenticate()
+  .then(() => {
+    logger.info('Connection established successfully.');
+    return true;
+  })
+  .catch((err) => {
+    logger.error('Unable to connect to the database:', err);
+    return false;
+  });
+// .finally(() => {
+//   sequelize.close();
+//   return false;
+// });
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.connect = connect;
 
-export { db };
+export default db;

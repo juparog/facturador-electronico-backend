@@ -1,0 +1,153 @@
+definitions:
+# ******* Modelos ********
+  User:
+    type: object
+    required:
+      - firstName
+      - lastName
+      - username
+      - password
+      - email
+      - documentNumber
+      - state
+    properties:
+      id:
+        type: integer
+        description: Id del usuario.
+        example: 1
+      firstName:
+        type: string
+        description: Nombre del usuario.
+        example: Lindo
+      lastName:
+        type: string
+        description: Apellido del usuario.
+        example: Hermoso
+      username:
+        type: string
+        description: Usuario.
+        example: lindohermoso
+      password:
+        type: string
+        description: Contraseña del usuario.
+        example: repollo123
+      email:
+        type: string
+        description: Correo del usuario.
+        example: lindohermoso@email.com
+      documentNumber:
+        type: string
+        description: Nit del usuario.
+        example: 1234567890
+      state:
+        type: string
+        description: Estado del usuario.
+        example: ACTIVE
+# ******** Respuestas *********
+  Response400:
+    type: object
+    required:
+      - success
+      - message
+    properties:
+      success:
+        type: bool
+        description: Estado de la respuesta.
+        example: false
+      message:
+        type: string
+        description: Informacion de la respuesta.
+        example: Validacion fallida.
+      errors:
+        type: array
+        description: Lista de errores.
+        items:
+          type: object
+          required:
+            - name
+            - message
+          properties:
+            name:
+              type: string
+              description: Nombre del campo o punto donde cocurrio el error.
+              example: email
+            message:
+              type: string
+              description: Memsage que detalla el error.
+              example: El campo email es obligatorio.
+  Response401:
+    type: object
+    required:
+      - success
+      - message
+    properties:
+      success:
+        type: bool
+        description: Estado de la respuesta.
+        example: false
+      message:
+        type: string
+        description: Informacion de la respuesta.
+        example: No autorizado.
+      errors:
+        type: array
+        description: Lista de errores.
+        items:
+          type: object
+          required:
+            - name
+            - message
+          properties:
+            name:
+              type: string
+              description: Nombre del campo o punto donde cocurrio el error.
+              example: token
+            message:
+              type: string
+              description: Memsage que detalla el error.
+              example: El token de autenticacion no es valido, por favor inicie sesión.
+  Response500:
+    type: object
+    required:
+      - success
+      - message
+    properties:
+      success:
+        type: bool
+        description: Estado de la respuesta.
+        example: false
+      message:
+        type: string
+        description: Informacion de la respuesta.
+        example: Error de servidor.
+      errors:
+        type: array
+        description: Lista de errores.
+        items:
+          type: object
+          required:
+            - name
+            - message
+          properties:
+            name:
+              type: string
+              description: Nombre del campo o punto donde cocurrio el error.
+              example: database
+            message:
+              type: string
+              description: Memsage que detalla el error.
+              example: Imposible conectar con la base de datos.
+  Response200:
+    type: object
+    required:
+      - success
+      - message
+    properties:
+      success:
+        type: bool
+        description: Estado de la respuesta.
+        example: false
+      message:
+        type: string
+        description: Nombre del usuario.
+        example: Validacion fallida.

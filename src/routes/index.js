@@ -1,14 +1,15 @@
 import express from 'express';
-import { indexPage, authenticate } from '../controllers/index';
-import { router as routerUser } from './user';
-import { router as routerAuth } from './auth';
+import * as homeController from '../controllers/home';
+import * as authController from '../controllers/auth';
+import userRouter from './user';
+import authRouter from './auth';
 
 const indexRouter = express.Router();
 
-indexRouter.get('/api', indexPage);
+indexRouter.get('/api', homeController.indexPage);
 
-indexRouter.use('/api/users', authenticate, routerUser);
+indexRouter.use('/api/users', authController.authenticate, userRouter);
 
-indexRouter.use('/api/auth', routerAuth);
+indexRouter.use('/api/auth', authRouter);
 
 export default indexRouter;

@@ -1,0 +1,150 @@
+tags:
+- name: Usuarios
+  description: Operaciones sobre los usuarios
+paths:
+  /api/users:
+    get:
+      summary: Recupera una lista de usuarios.
+      description: Recupera una lista de usuarios.
+      tags:
+        - Usuarios
+      responses:
+        200:
+          description: Una lista de usuarios.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                  - data
+                properties:
+                  success:
+                    type: boolean
+                    description: Estado de la respuesta.
+                    example: false
+                  message:
+                    type: string
+                    description: Nombre del usuario.
+                    example: Validacion fallida.
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/User'
+        400:
+          description: Error del cliente solicitando los datos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response400'
+        500:
+          description: Error del servidor realizando la operacion.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Response400'
+    post:
+      summary: Crea un usuario.
+      description: Crea un usuario en la base de datos.
+      tags:
+        - Usuarios
+      parameters:
+      - in: body
+        name: user
+        description: El usuario para crear.
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        200:
+          description: El suario que se creó.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/definitions/User'
+        409:
+          description: Una estructura con informacion de los inconvenientes.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensage de informacion.
+                    example: No se pudo crear el usuario.
+/api/users/{id}:
+  put:
+    summary: Actualizar un usuario.
+    description: Actualizar un usuario en la base de datos.
+    tags:
+      - Usuarios
+    parameters:
+     - in: path
+       name: id
+       description: Id numerico del usuario que se va a actualizar
+       schema:
+         type: integer
+       required: true
+     - in: body
+       name: user
+       description: Los campos del usuario para actualizar.
+       schema:
+          $ref: '#/definitions/User'
+    responses:
+      200:
+        description: El usuario con los campos actualizados.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/definitions/User'
+      409:
+        description: Una estructura con informacion de los inconvenientes.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: Mensage de informacion.
+                  example: No se pudo actualizar el usuario.
+  delete:
+    summary: Eliminar un usuario.
+    description: Eliminar un usuario en la base de datos (desactivar).
+    tags:
+      - Usuarios
+    parameters:
+     - in: path
+       name: id
+       description: Id numerico del usuario que se va a eliminar
+       schema:
+         type: integer
+       required: true
+    responses:
+      200:
+        description: El usuario con los campos actualizados.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/definitions/User'
+      409:
+        description: Una estructura con informacion de los inconvenientes.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: Mensage de informacion.
+                  example: No se pudo actualizar el usuario.           
