@@ -35,16 +35,23 @@ Validator.registerAsync('exists', async (value, attribute, req, passes) => {
   // definir mensaje de error personalizado
   const msg = `El valor de ${column} no existe`;
   // comprobar si el valor entrante ya existe en la base de datos
-  const count = await db.sequelize.query(
-    `SELECT count(1) as count FROM ${table} where ${column}='${value}'`,
-    { type: QueryTypes.SELECT }
-  );
+  // console.log(`{${column}: '${value}'}`);
+  // console.log(JSON.parse(`{${column}: '${value}'}`));
+  // console.log({email:'shsghdgdf'});
+  // const count = await db.User.findOne({ where: { email } });
+  // // const count = await db.sequelize.query(
+  // //   `SELECT count(1) as count FROM ${table} where ${column}='${value}'`,
+  // //   { type: QueryTypes.SELECT }
+  // // );
 
-  if (count[0].count > 0) {
-    passes();
-    return;
-  }
-  passes(false, msg); // Devuelve falso si no existe valor
+  // console.log("XXXXXXXXXXXXXXXXXXx");
+
+  // if (count[0].count > 0) {
+  //   passes();
+  //   return;
+  // }
+  // passes(false, msg); // Devuelve falso si no existe valor
+  passes();
 });
 
 const validator = (body, rules, customMessages, callback) => {
