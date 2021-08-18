@@ -58,13 +58,19 @@ module.exports = {
       doc: 'Tiempo de expiracion para el token de acceso.',
       format: String,
       default: '1d',
-      env: 'APP_ACCESS_TOKEN_EXPIRATION_TIME',
+      env: 'APP_ACCESS_TOKEN_EXPIRATION',
     },
     urlClient: {
       doc: 'Url del cliente.',
       format: String,
       default: 'http://localhost',
       env: 'APP_URL_CLIENT',
+    },
+    pathResetPassword: {
+      doc: 'Ruta del cliente para restablecer la contraseña',
+      format: String,
+      default: 'auth/reset-password',
+      env: 'SMTP_RESET_PASSWORD',
     },
   },
   db: {
@@ -154,23 +160,19 @@ module.exports = {
       default: '',
       env: 'SMTP_PASSWORD',
     },
-    pathResetPassword: {
-      doc: 'Ruta para restablecer la contraseña',
-      format: String,
-      default: 'http://localhost',
-      env: 'SMTP_RESET_PASSWORD',
-    },
+  },
+  sendGrid: {
     templateId: {
       doc: 'Id del template en email sendgrid/mail',
       format: String,
       default: '1-myTemplateId1234',
-      env: 'SMTP_TEMPLATE_ID_SENDGRID',
+      env: 'SG_TEMPLATE_ID',
     },
-    sendGridApiKey: {
+    apiKey: {
       doc: 'Id del template en email sendgrid/mail',
       format: String,
       default: 'apyKeysengrid-email12746',
-      env: 'SMTP_API_KEY_SENDGRID',
+      env: 'SG_API_KEY',
     },
-  },
+  }
 };
