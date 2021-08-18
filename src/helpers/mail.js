@@ -45,7 +45,7 @@ import sgMail from '@sendgrid/mail';
 import { logger } from './console';
 import { configEnv } from '../config/env/config';
 
-const sgMailApiKey = configEnv.get('smtp.sendGridApiKey');
+const sgMailApiKey = configEnv.get('sendGrid.apiKey');
 sgMail.setApiKey(sgMailApiKey);
 
 const sendEmailForgotPassword = async (user, passwordResetToken) => {
@@ -54,13 +54,13 @@ const sendEmailForgotPassword = async (user, passwordResetToken) => {
     to: user.email,
     from: {
       name: configEnv.get('app.name'),
-      email: configEnv.get('smtp.user'),
+      email: configEnv.get('app.supportEmail'),
     },
-    templateId: configEnv.get('smtp.templateId'),
+    templateId: configEnv.get('sendGrid.templateId'),
     dynamic_template_data: {
       name: user.firstName,
-      link: `${configEnv.get('app.url')}/${configEnv.get(
-        'smtp.pathResetPassword'
+      link: `${configEnv.get('app.urlClient')}/${configEnv.get(
+        'app.pathResetPassword'
       )}/${passwordResetToken}`,
       date: new Date(),
     },
