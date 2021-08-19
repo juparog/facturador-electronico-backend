@@ -14,8 +14,8 @@ const response400 = (res, next, err, status) => {
 
 export const login = (req, res, next) => {
   const validationRule = {
-    documentNumber: 'required|string|exists:Users,documentNumber',
-    email: 'required|email|exists:Users,email',
+    documentNumber: 'required|string|exists:User,documentNumber',
+    email: 'required|email|exists:User,email',
     password: 'required|string|min:8',
   };
   validator(req.body, validationRule, {}, (err, status) => response400(res, next, err, status));
@@ -24,8 +24,8 @@ export const login = (req, res, next) => {
 export const token = (req, res, next) => {
   const validationRule = {
     refreshToken: 'required|string',
-    documentNumber: 'required|string|exists:Users,documentNumber',
-    email: 'required|email|exists:Users,email',
+    documentNumber: 'required|string|exists:User,documentNumber',
+    email: 'required|email|exists:User,email',
   };
   validator(req.body, validationRule, {}, (err, status) => response400(res, next, err, status));
 };
@@ -50,7 +50,7 @@ export const updatePassword = (req, res, next) => {
 
 export const forgotPassword = (req, res, next) => {
   const validationRule = {
-    email: 'required|email|exists:Users,email',
+    email: 'required|email|exists:User,email',
   };
   validator(req.body, validationRule, {}, (err, status) => response400(res, next, err, status));
 };
@@ -59,7 +59,7 @@ export const resetPassword = (req, res, next) => {
   const validationRule = {
     newPassword: 'required|string|min:8|password_strict|confirmed',
     passwordConfirm: 'required',
-    passwordResetToken: 'required|string|exists:Users,passwordResetToken',
+    passwordResetToken: 'required|string|exists:User,passwordResetToken',
   };
   // ajustar la confirmacion de contraseña al formato que acepta validatosjs
   req.body.newPassword_confirmation = req.body.passwordConfirm;

@@ -174,5 +174,5 @@ module.exports = {
       default: 'apyKeysengrid-email12746',
       env: 'SG_API_KEY',
     },
-  }
+  },
 };

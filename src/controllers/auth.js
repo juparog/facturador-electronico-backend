@@ -108,7 +108,7 @@ const login = async (req, res) => {
           });
         } else {
           logger.error(' ::: controller.auth.login: Contraseña incorrecta. ');
-          res.status(401).json({
+          res.status(400).json({
             success: false,
             message: 'Fallo el login.',
             errors: [
@@ -123,7 +123,7 @@ const login = async (req, res) => {
         logger.error(
           ' ::: controller.auth.login: documentNumber ó email incorrectos.'
         );
-        res.status(401).json({
+        res.status(400).json({
           success: false,
           message: 'Fallo el login.',
           errors: [
@@ -166,7 +166,7 @@ const authenticate = (req, res, next) => {
       logger.info(
         ' ::: controller.auth.authenticate: El token de autenticacion no es valido, por favor inicie sesión.'
       );
-      res.status(400).json({
+      res.status(401).json({
         success: false,
         message: 'Error de autenticación.',
         errors: [
@@ -182,7 +182,7 @@ const authenticate = (req, res, next) => {
     logger.error(
       ' ::: controller.auth.authenticate: No se encontro el encabezado "authorization".'
     );
-    res.status(401).json({
+    res.status(400).json({
       success: false,
       message: 'Error de autenticación.',
       errors: [
