@@ -159,9 +159,44 @@ const authenticate = (req, res, next) => {
     const validAccessToken = verifiToken(accessToken);
     if (validAccessToken) {
       logger.info(' ::: controller.auth.authenticate: Autenticacion exitosa.');
-
-      req.user = validAccessToken.user;
-      next();
+      db.User.findOne({
+        where: {
+          documentNumber: validAccessToken.user.documentNumber,
+          email: validAccessToken.user.email,
+          status: 'ACTIVE',
+        },
+      })
+        .then((user) => {
+          if (user) {
+            req.user = validAccessToken.user;
+            next();
+          } else {
+            res.status(401).json({
+              success: false,
+              message: 'Error de autenticación.',
+              errors: [
+                {
+                  name: 'user',
+                  message: 'El usuario no se encuentra activo.',
+                },
+              ],
+            });
+          }
+        })
+        .catch((err) => {
+          const msg = err.message || 'No se pudo completrar la solicitud.';
+          logger.error(` ::: controller.auth.login: ${msg}`);
+          res.status(500).json({
+            success: false,
+            message: 'Fallo la actualizacion de contraseña.',
+            errors: [
+              {
+                name: 'server',
+                message: msg,
+              },
+            ],
+          });
+        });
     } else {
       logger.info(
         ' ::: controller.auth.authenticate: El token de autenticacion no es valido, por favor inicie sesión.'

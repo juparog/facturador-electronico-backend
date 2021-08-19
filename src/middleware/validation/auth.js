@@ -15,7 +15,8 @@ const response400 = (res, next, err, status) => {
 export const login = (req, res, next) => {
   const validationRule = {
     documentNumber: 'required|string|exists:User,documentNumber',
-    email: 'required|email|exists:User,email',
+    email:
+      'required|email|exists:User,email|brother-field-value:User,email,status,ACTIVE',
     password: 'required|string|min:8',
   };
   validator(req.body, validationRule, {}, (err, status) => response400(res, next, err, status));

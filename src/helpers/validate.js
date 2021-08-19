@@ -26,11 +26,9 @@ Validator.registerAsync('exists', async (value, attribute, req, passes) => {
   logger.info(' ::: helpers.registerAsync.exists');
   if (!attribute) {
     logger.error(
-      ' ::: helpers.registerAsync.exists: Especifique los requisitos, es decir, fieldName: exist:model,column'
+      ' ::: helpers.registerAsync.exists: Especifique los requisitos, es decir: exist:model,column'
     );
-    throw new Error(
-      'Especifique los requisitos, es decir, fieldName: exist:model,column'
-    );
+    throw new Error('Especifique los requisitos, es decir: exist:model,column');
   }
   // dividir tabla y columna
   const attArr = attribute.split(',');
@@ -44,22 +42,70 @@ Validator.registerAsync('exists', async (value, attribute, req, passes) => {
   }
 
   // asignar el índice de matriz 0 y 1 a la tabla y la columna respectivamente
-  const { 0: table, 1: column } = attArr;
+  const { 0: model, 1: column } = attArr;
   // definir mensaje de error personalizado
-  const msg = `El valor de ${column} no existe`;
+  const msg = `El valor de ${column} no existe.`;
   // comprobar si el valor entrante ya existe en la base de datos
   const filter = JSON.parse(`{"${column}": "${value}"}`);
-  const count = await db[`${table}`].findOne({ where: filter });
+  const count = await db[`${model}`].findOne({ where: filter });
   if (count) {
     logger.info(' ::: helpers.registerAsync.exists: Validacion [true]');
     passes();
     return;
   }
-  logger.info(
-    ` ::: helpers.registerAsync.exists: El valor de ${column} no existe`
-  );
+  logger.info(` ::: helpers.registerAsync.exists: ${msg}`);
   passes(false, msg); // Devuelve falso si no existe valor
 });
+
+/**
+ * Comprueba si el valor del campo hermano contiene un valor requerido por
+ * ejemplo, email: required|email|brother-field-value:User,status,ACTIVE
+ */
+Validator.registerAsync(
+  'brother-field-value',
+  async (value, attribute, req, passes) => {
+    logger.info(' ::: helpers.registerAsync.brother-field-value');
+    if (!attribute) {
+      logger.error(
+        ' ::: helpers.registerAsync.brother-field-value: Especifique los requisitos, es decir: brother-field-value:model,columnFilter,columnValue,value'
+      );
+      throw new Error(
+        'Especifique los requisitos, es decir: brother-field-value:model,columnFilter,columnValue,value'
+      );
+    }
+    // dividir tabla y columna
+    const attArr = attribute.split(',');
+    if (attArr.length !== 4) {
+      logger.error(
+        ` ::: helpers.registerAsync.brother-field-value: Formato no válido para la regla de validación en ${attribute}`
+      );
+      throw new Error(
+        `Formato no válido para la regla de validación en ${attribute}`
+      );
+    }
+
+    // asignar el índice de matriz 0 y 1 a la tabla y la columna respectivamente
+    const {
+      0: model, 1: columnFilter, 2: columnValue, 3: valueAttr
+    } = attArr;
+    // definir mensaje de error personalizado
+    const msg = `Para el atributo ${columnFilter} el recurso ${model} NO tiene ${columnValue} en ${valueAttr}`;
+    // comprobar si el valor entrante ya existe en la base de datos
+    const filter = JSON.parse(
+      `{"${columnFilter}": "${value}", "${columnValue}": "${valueAttr}"}`
+    );
+    const count = await db[`${model}`].findOne({ where: filter });
+    if (count) {
+      logger.info(
+        ' ::: helpers.registerAsync.brother-field-value: Validacion [true]'
+      );
+      passes();
+      return;
+    }
+    logger.info(` ::: helpers.registerAsync.brother-field-value: ${msg}`);
+    passes(false, msg); // Devuelve falso si no existe valor
+  }
+);
 
 const validator = (body, rules, customMessages, callback) => {
   logger.info(' ::: helpers.validator');
