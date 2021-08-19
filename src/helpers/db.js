@@ -2,17 +2,17 @@ import db from '../models';
 import { logger } from './console';
 
 const dbSync = async (options) => {
-  logger.info(' ::: Sincronizando la base de datos...');
-  logger.info(' ::: Opciones de sincronizacion: ', options);
+  logger.info(' ::: helpers.db.dbSync: Sincronizando la base de datos...');
+  logger.info(' ::: helpers.db.dbSync: Opciones de sincronizacion: ', options);
   await db.sequelize.sync(options);
-  logger.info(' ::: Sincronizacion completa!');
+  logger.info(' ::: helpers.db.dbSync: Sincronizacion completa!');
 };
 
 const tablesTruncate = async () => {
-  logger.info(' ::: Truncando las tablas de la DB...');
+  logger.info(' ::: helpers.db.tablesTruncate: Truncando las tablas de la DB...');
   Object.values(db).map(async (model) => {
     await model.destroy({ truncate: true });
-    logger.info(` ::: Modelo ${model.name} truncado!`);
+    logger.info(` ::: helpers.db.tablesTruncate: Modelo ${model.name} truncado!`);
   });
 };
 
