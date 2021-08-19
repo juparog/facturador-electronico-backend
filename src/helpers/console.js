@@ -1,6 +1,8 @@
 import createLogger from 'logging';
 import { configEnv } from '../config/env/config';
 
-const logger = createLogger(configEnv.get('app.name'));
+const options = configEnv.get('app.logging') ? {} : {logFunction: () => {}};
+
+const logger = createLogger(configEnv.get('app.name'), options);
 
 export { logger };

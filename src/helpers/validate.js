@@ -10,7 +10,9 @@ Validator.register(
   'password_strict',
   (value) => {
     const result = passwordRegex.test(value);
-    logger.info(` ::: helpers.register.password_strict: Validacion [${result}]`);
+    logger.info(
+      ` ::: helpers.register.password_strict: Validacion [${result}]`
+    );
     return result;
   },
   'la contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número'
@@ -53,7 +55,9 @@ Validator.registerAsync('exists', async (value, attribute, req, passes) => {
     passes();
     return;
   }
-  logger.info(` ::: helpers.registerAsync.exists: El valor de ${column} no existe`);
+  logger.info(
+    ` ::: helpers.registerAsync.exists: El valor de ${column} no existe`
+  );
   passes(false, msg); // Devuelve falso si no existe valor
 });
 
