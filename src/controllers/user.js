@@ -11,9 +11,20 @@ const hashPassword = async (password) => {
   return hash;
 };
 
-const getListUser = async (req, res) => {
+const getList = async (req, res) => {
   logger.info(' ::: auth.controller.getListUser');
-  const data = await db.User.findAll({});
+  const { query } = req;
+  console.log(query);
+  const order = query.sort || null;
+  const where = query.filter || '{}';
+  const attributes = query.attributes || null;
+  const range = query.range || null;
+  const data = await db.User.findAll({
+    order: order ? [ JSON.parse(order) ] : null,
+    where: JSON.parse(where),
+    attributes: attributes ? JSON.parse(attributes) : null,
+    offset: JSON.parse(range)[0], limit: JSON.parse(range)[1],
+  });
   if (data) {
     res.status(200).json({ data });
   } else {
@@ -75,6 +86,10 @@ const updateUser = async (req, res) => {
   }
 };
 
-export {
-  getListUser, createUser, updateUser, getOneUser, hashPassword
+export default {
+  getList,
+  createUser,
+  updateUser,
+  getOneUser,
+  hashPassword,
 };

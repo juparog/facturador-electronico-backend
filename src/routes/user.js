@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import * as userController from '../controllers/user';
+import userController from '../controllers/user';
+import authController from '../controllers/auth';
 
 const userRouter = Router();
 
-userRouter.get('/', userController.getListUser);
+userRouter.get('/', /* authController.authenticate, */ userController.getList);
 
 userRouter.get('/:id', userController.getOneUser);
 

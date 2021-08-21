@@ -47,11 +47,13 @@ module.exports = {
   down: async (queryInterface) => {
     await queryInterface.bulkDelete(
       'Users',
-      [
-        { email: 'juangasca95@gmail.com' },
-        { email: 'efrainrg92@gmail.com' },
-        { email: 'samir.martinez@gmail.com' },
-      ],
+      {
+        email: [
+          'juangasca95@gmail.com',
+          'efrainrg92@gmail.com',
+          'samir.martinez@gmail.com',
+        ],
+      },
       {}
     );
   },

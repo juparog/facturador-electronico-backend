@@ -470,7 +470,7 @@ const resetPassword = async (req, res) => {
   }
 };
 
-export {
+export default {
   login,
   authenticate,
   token,
