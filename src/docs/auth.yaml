@@ -71,12 +71,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/Response400'
-        401:
-          description: Una estructura con los errores en la solicitud por parte del cliente.
-          content:
-            application/json:
-              schema:
-                $ref: '#/definitions/Response401'
         500:
           description: Una estructura con los errores en la solicitud por parte del servidor.
           content:
@@ -277,12 +271,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/Response400'
-        401:
-          description: Una estructura con los errores en la solicitud por parte del cliente.
-          content:
-            application/json:
-              schema:
-                $ref: '#/definitions/Response401'
         500:
           description: Una estructura con los errores en la solicitud por parte del servidor.
           content:

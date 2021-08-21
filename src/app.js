@@ -25,6 +25,6 @@ app.use('*', (req, res) => {
   res.json({ message: 'La ruta solicitada no existe' });
 });
 
-dbSync(JSON.parse(JSON.stringify(configEnv.get('db.sync'))));
+dbSync(configEnv.get('db.sync'));
 
 export default app;

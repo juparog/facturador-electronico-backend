@@ -108,7 +108,7 @@ const login = async (req, res) => {
           });
         } else {
           logger.error(' ::: controller.auth.login: Contraseña incorrecta. ');
-          res.status(401).json({
+          res.status(400).json({
             success: false,
             message: 'Fallo el login.',
             errors: [
@@ -123,7 +123,7 @@ const login = async (req, res) => {
         logger.error(
           ' ::: controller.auth.login: documentNumber ó email incorrectos.'
         );
-        res.status(401).json({
+        res.status(400).json({
           success: false,
           message: 'Fallo el login.',
           errors: [
@@ -159,14 +159,49 @@ const authenticate = (req, res, next) => {
     const validAccessToken = verifiToken(accessToken);
     if (validAccessToken) {
       logger.info(' ::: controller.auth.authenticate: Autenticacion exitosa.');
-
-      req.user = validAccessToken.user;
-      next();
+      db.User.findOne({
+        where: {
+          documentNumber: validAccessToken.user.documentNumber,
+          email: validAccessToken.user.email,
+          status: 'ACTIVE',
+        },
+      })
+        .then((user) => {
+          if (user) {
+            req.user = validAccessToken.user;
+            next();
+          } else {
+            res.status(401).json({
+              success: false,
+              message: 'Error de autenticación.',
+              errors: [
+                {
+                  name: 'user',
+                  message: 'El usuario no se encuentra activo.',
+                },
+              ],
+            });
+          }
+        })
+        .catch((err) => {
+          const msg = err.message || 'No se pudo completrar la solicitud.';
+          logger.error(` ::: controller.auth.login: ${msg}`);
+          res.status(500).json({
+            success: false,
+            message: 'Fallo la actualizacion de contraseña.',
+            errors: [
+              {
+                name: 'server',
+                message: msg,
+              },
+            ],
+          });
+        });
     } else {
       logger.info(
         ' ::: controller.auth.authenticate: El token de autenticacion no es valido, por favor inicie sesión.'
       );
-      res.status(400).json({
+      res.status(401).json({
         success: false,
         message: 'Error de autenticación.',
         errors: [
@@ -182,7 +217,7 @@ const authenticate = (req, res, next) => {
     logger.error(
       ' ::: controller.auth.authenticate: No se encontro el encabezado "authorization".'
     );
-    res.status(401).json({
+    res.status(400).json({
       success: false,
       message: 'Error de autenticación.',
       errors: [

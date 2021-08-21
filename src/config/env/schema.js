@@ -72,6 +72,12 @@ module.exports = {
       default: 'auth/reset-password',
       env: 'SMTP_RESET_PASSWORD',
     },
+    logging: {
+      doc: 'Impresion de log con informacion para la aplicacion',
+      format: Boolean,
+      default: true,
+      env: 'APP_LOGGING_INFO',
+    },
   },
   db: {
     dialect: {
@@ -112,7 +118,7 @@ module.exports = {
     },
     sync: {
       doc: 'Metodo de sincroniizacion para la db.',
-      format: [ '{}', '{force:true}', '{alter:true}' ],
+      format: [ '', 'force', 'alter' ],
       default: '{}',
       env: 'DB_SYNC',
     },
@@ -174,5 +180,5 @@ module.exports = {
       default: 'apyKeysengrid-email12746',
       env: 'SG_API_KEY',
     },
-  }
+  },
 };
