@@ -46,12 +46,14 @@ Validator.registerAsync('exists', async (value, attribute, req, passes) => {
   // asignar el índice de matriz 0 y 1 a la tabla y la columna respectivamente
   const { 0: model, 1: column, 2: condition } = attArr;
   // definir mensaje de error personalizado
-  const msg = `El valor de ${column} ${condition === "0" ? 'no' : 'ya'} existe.`;
+  const msg = `El valor de ${column} ${
+    condition === '0' ? 'no' : 'ya'
+  } existe.`;
   // comprobar si el valor entrante ya existe en la base de datos
   const filter = JSON.parse(`{"${column}": "${value}"}`);
   const count = await db[`${model}`].count({ where: filter });
 
-  const flag = condition === "0" ? count : !count;
+  const flag = condition === '0' ? count : !count;
   if (flag) {
     logger.info(' ::: helpers.registerAsync.exists: Validacion [true]');
     passes();
@@ -132,4 +134,17 @@ const validator = (body, rules, customMessages, callback) => {
   });
 };
 
-export { validator };
+const response400 = (res, next, err, status) => {
+  logger.info(' ::: middleware.validation.auth.response400');
+  if (!status) {
+    res.status(400).json({
+      success: false,
+      message: 'Validacion fallida',
+      errors: err,
+    });
+  } else {
+    next();
+  }
+};
+
+export { validator, response400 };

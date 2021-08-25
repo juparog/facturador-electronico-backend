@@ -1,8 +1,7 @@
 import bcrypt from 'bcrypt';
-import { ValidationError } from 'sequelize';
+import faker from 'faker';
 import db from '../models';
 import { logger } from '../helpers/console';
-import faker from 'faker';
 
 const hashPassword = async (password) => {
   logger.info(' ::: controllers.user.hashPassword');
@@ -12,70 +11,116 @@ const hashPassword = async (password) => {
   return hash;
 };
 
-const getList = async (req, res) => {
+const getList = (req, res) => {
   logger.info(' ::: controllers.user.getList');
   const { query } = req;
-  console.log(query);
   const order = query.sort || null;
   const where = query.filter || '{}';
-  let attributes = query.attributes || null;
+  const attributes = query.attributes || null;
   const range = query.range || null;
   const offset = range ? JSON.parse(range)[0] : 0;
   const limit = range ? JSON.parse(range)[1] : 6;
-  const amount = await db.User.count({
-    where: JSON.parse(where)
-  });
-  const data = await db.User.findAll({
-    order: order ? [ JSON.parse(order) ] : null,
+  let numberRecords = 0;
+  db.User.count({
     where: JSON.parse(where),
-    attributes: attributes ? JSON.parse(attributes) : null,
-    /* attributes: {
-      include: attributes ? JSON.parse(attributes) : null,
-      exclude: ['password']
-    }, */
-    offset,
-    limit,
-  });
-  if (data) {
-    res.status(200).json({ 
-      success: true,
-      message: "Lista de usuarios.",
-      data,
-      total: amount
+  })
+    .then((amount) => {
+      numberRecords = amount;
+      return db.User.findAll({
+        order: order ? [ JSON.parse(order) ] : null,
+        where: JSON.parse(where),
+        attributes: attributes ? JSON.parse(attributes) : null,
+        offset,
+        limit,
+      });
+    })
+    .then((users) => {
+      res.status(200).json({
+        success: true,
+        message: 'Lista de usuarios.',
+        data: users,
+        total: numberRecords,
+      });
+    })
+    .catch((err) => {
+      const msg = err.message || 'No se pudo completrar la solicitud.';
+      logger.error(` ::: controller.user.getOne: ${msg}`);
+      res.status(500).json({
+        success: false,
+        message: 'No se encontraron usuarios disponibles',
+        errors: [
+          {
+            name: 'server',
+            message: msg,
+          },
+        ],
+      });
     });
-  } else {
-    res.status(409).json({ message: 'No se pudo listar los usuarios' });
-  }
 };
 
-const getOneUser = async (req, res) => {
-  logger.info(' ::: controllers.user.getOneUser');
-  const data = await db.User.findOne({
+const getOne = async (req, res) => {
+  logger.info(' ::: controllers.user.getOne');
+  db.User.findOne({
     where: req.params,
-  });
-  res.status(200).json({ data });
+    attributes: { exclude: [ 'password', 'passwordResetToken' ] },
+  })
+    .then((user) => {
+      if (user) {
+        res.status(200).json({
+          success: true,
+          message: 'Datos del usuario.',
+          data: user,
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: 'El usuario no existe',
+        });
+      }
+    })
+    .catch((err) => {
+      const msg = err.message || 'No se pudo completrar la solicitud.';
+      logger.error(` ::: controller.user.getOne: ${msg}`);
+      res.status(500).json({
+        success: false,
+        message: 'Error recuperando el usuario',
+        errors: [
+          {
+            name: 'server',
+            message: msg,
+          },
+        ],
+      });
+    });
 };
 
-const generateUsername = async (firstName,lastName) => {
+const generateUsername = async (firstName, lastName) => {
   logger.info(' ::: controllers.user.generateUsername');
   let count = 1;
-  while(true){
-    const username = faker.internet.userName(firstName,lastName);
-    logger.info(` ::: controllers.user.generateUsername: Validando username [${username}]`);
+  while (true) {
+    const username = faker.internet.userName(firstName, lastName);
+    logger.info(
+      ` ::: controllers.user.generateUsername: Validando username [${username}]`
+    );
     const amount = await db.User.count({
-      where: {username}
-    }).then(data => {
-      return data;
-    }).catch(err => {
-      logger.error(' ::: controllers.user.generateUsername: Error generando el username, ', err);
-      return null;
-    });
-    if(!amount){
-      logger.info(` ::: controllers.user.generateUsername: Username [${username}] generado.`);
+      where: { username },
+    })
+      .then((data) => data)
+      .catch((err) => {
+        logger.error(
+          ' ::: controllers.user.generateUsername: Error generando el username, ',
+          err
+        );
+        return null;
+      });
+    if (!amount) {
+      logger.info(
+        ` ::: controllers.user.generateUsername: Username [${username}] generado.`
+      );
       return username;
     }
     count++;
-    if(count>5){
+    if (count > 5) {
       return null;
     }
   }
@@ -83,31 +128,41 @@ const generateUsername = async (firstName,lastName) => {
 
 const create = async (req, res) => {
   logger.info(' ::: controllers.user.create');
-  const {firstName,lastName,email,documentNumber} = req.body;
-  const username = await generateUsername(firstName,lastName);
-  if(username){
+  const {
+    firstName, lastName, email, documentNumber
+  } = req.body;
+  const username = await generateUsername(firstName, lastName);
+  if (username) {
     const password = await hashPassword(faker.internet.password(8));
     const status = 'ACTIVE';
-    db.User.create({firstName,lastName, username, password ,email,documentNumber, status})
-    .then(data => {
-      const user = JSON.parse(JSON.stringify(data));
-      delete user['password'];
-      res.status(200).json({ 
-        success: true,
-        message: 'Usuario creado.',
-        data: user
+    db.User.create({
+      firstName,
+      lastName,
+      username,
+      password,
+      email,
+      documentNumber,
+      status,
+    })
+      .then((data) => {
+        const user = JSON.parse(JSON.stringify(data));
+        delete user.password;
+        res.status(200).json({
+          success: true,
+          message: 'Usuario creado.',
+          data: user,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          success: false,
+          message: 'No se pudo crear el usuario, intente nuevamente',
+        });
       });
-    }).catch(err => {
-      console.log(err);
-      res.status(500).json({ 
-        success: false,
-        message: 'No se pudo crear el usuario, intente nuevamente'
-      });
-    });
   } else {
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      message: 'No se pudo crear el username, intente nuevamente'
+      message: 'No se pudo crear el username, intente nuevamente',
     });
   }
 };
@@ -132,8 +187,8 @@ const updateUser = async (req, res) => {
 
 export default {
   getList,
+  getOne,
   create,
   updateUser,
-  getOneUser,
   hashPassword,
 };

@@ -8,7 +8,7 @@ const indexRouter = express.Router();
 
 indexRouter.get('/api', homeController.indexPage);
 
-indexRouter.use('/api/users', /* authController.authenticate, */ userRouter);
+indexRouter.use('/api/users', authController.authenticate, userRouter);
 
 indexRouter.use('/api/auth', authRouter);
 

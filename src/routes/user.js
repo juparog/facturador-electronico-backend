@@ -1,14 +1,17 @@
 import { Router } from 'express';
 import userController from '../controllers/user';
-import authController from '../controllers/auth';
 import validationUser from '../middleware/validation/user';
 
 const userRouter = Router();
 
-userRouter.get('/', /* authController.authenticate, */ userController.getList);
+// Get /api/users?sort=["updateAt","ASC"]&range=[0,10]&
+// filter={"lastName":"Pacho"}&attributes=["firstName","email"]
+userRouter.get('/', userController.getList);
 
-userRouter.get('/:id', userController.getOneUser);
+// Get /api/users/{id}
+userRouter.get('/:id', validationUser.getOne, userController.getOne);
 
+// Pots /api/users/
 userRouter.post('/', validationUser.create, userController.create);
 
 userRouter.put('/:id', userController.updateUser);
