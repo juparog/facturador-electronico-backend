@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import faker from 'faker';
 import db from '../models';
 import { logger } from '../helpers/console';
+import authController from '../controllers/auth';
 
 const hashPassword = async (password) => {
   logger.info(' ::: controllers.user.hashPassword');
@@ -11,6 +12,7 @@ const hashPassword = async (password) => {
   return hash;
 };
 
+// trcuperar una lista de ususarios
 const getList = (req, res) => {
   logger.info(' ::: controllers.user.getList');
   const { query } = req;
@@ -20,12 +22,12 @@ const getList = (req, res) => {
   const range = query.range || null;
   const offset = range ? JSON.parse(range)[0] : 0;
   const limit = range ? JSON.parse(range)[1] : 6;
-  let numberRecords = 0;
+  let totalRecords = 0;
   db.User.count({
     where: JSON.parse(where),
   })
     .then((amount) => {
-      numberRecords = amount;
+      totalRecords = amount;
       return db.User.findAll({
         order: order ? [ JSON.parse(order) ] : null,
         where: JSON.parse(where),
@@ -34,12 +36,17 @@ const getList = (req, res) => {
         limit,
       });
     })
-    .then((users) => {
+    .then((data) => {
+      const users = JSON.parse(JSON.stringify(data));
+      users.forEach((user) => {
+        delete user.password;
+        delete user.passwordResetToken;
+      });
       res.status(200).json({
         success: true,
         message: 'Lista de usuarios.',
         data: users,
-        total: numberRecords,
+        total: totalRecords,
       });
     })
     .catch((err) => {
@@ -58,8 +65,45 @@ const getList = (req, res) => {
     });
 };
 
-const getOne = async (req, res) => {
+// recuperar un usurio por id
+const getOne = (req, res) => {
   logger.info(' ::: controllers.user.getOne');
+  db.User.findOne({
+    where: { id: req.params.documentNumber },
+  })
+    .then((user) => {
+      if (user) {
+        res.status(200).json({
+          success: true,
+          message: 'Datos del usuario.',
+          data: user,
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: 'El usuario no existe',
+        });
+      }
+    })
+    .catch((err) => {
+      const msg = err.message || 'No se pudo completrar la solicitud.';
+      logger.error(` ::: controller.user.getOne: ${msg}`);
+      res.status(500).json({
+        success: false,
+        message: 'Error recuperando el usuario',
+        errors: [
+          {
+            name: 'server',
+            message: msg,
+          },
+        ],
+      });
+    });
+};
+
+// recupera una listya de usuarios por una lista d eids (en desuso)
+const getMany = (req, res) => {
+  logger.info(' ::: controllers.user.getMany');
   db.User.findOne({
     where: req.params,
     attributes: { exclude: [ 'password', 'passwordResetToken' ] },
@@ -97,7 +141,8 @@ const getOne = async (req, res) => {
 const generateUsername = async (firstName, lastName) => {
   logger.info(' ::: controllers.user.generateUsername');
   let count = 1;
-  while (true) {
+  const flag = true;
+  while (flag) {
     const username = faker.internet.userName(firstName, lastName);
     logger.info(
       ` ::: controllers.user.generateUsername: Validando username [${username}]`
@@ -119,7 +164,7 @@ const generateUsername = async (firstName, lastName) => {
       );
       return username;
     }
-    count++;
+    count += 1;
     if (count > 5) {
       return null;
     }
@@ -147,19 +192,17 @@ const create = async (req, res) => {
       .then((data) => {
         const user = JSON.parse(JSON.stringify(data));
         delete user.password;
-        res.status(200).json({
-          success: true,
-          message: 'Usuario creado.',
-          data: user,
-        });
+        authController.forgotPassword({body: {email: user.email}}, res);
       })
       .catch((err) => {
+        logger.error(` ::: controllers.user.create: Eroor: ${err}`);
         res.status(500).json({
           success: false,
           message: 'No se pudo crear el usuario, intente nuevamente',
         });
       });
   } else {
+    logger.error('No se pudo crear el username, intente nuevamente');
     res.status(500).json({
       success: false,
       message: 'No se pudo crear el username, intente nuevamente',
@@ -167,28 +210,63 @@ const create = async (req, res) => {
   }
 };
 
-const updateUser = async (req, res) => {
-  const num = await db.User.update(req.body, {
+const update = (req, res) => {
+  logger.info(' ::: controllers.user.update');
+  const  body = req.body;
+  delete body.id;
+  delete body.documentNumber;
+  delete body.email;
+  delete body.password;
+  delete body.passwordResetToken;
+  delete body.createdAt;
+  db.User.update(body, {
     where: {
-      id: req.params.id,
+      documentNumber: req.params.documentNumber,
     },
-  });
-  if (num[0] === 1) {
-    res.status(200).json({
-      data: {
-        id: req.params.id,
-        ...req.body,
-      },
+  }).then(num => {
+    if (num === 1) {
+      logger.info(' ::: controllers.user.update: Usuario actualizado.');
+      res.status(200).json({
+        success: true,
+        message: 'usuario actualizado.',
+        data: {
+          documentNumber: req.params.documentNumber,
+          ...body,
+        },
+      });
+    } else {
+      res.status(400).json({ 
+        success: false,
+        message: 'Usuario no actualizado.',
+        errors: [
+          {
+            name: 'documentNumber',
+            message: 'El documentNumber no existe.'
+          }
+        ]
+      });
+    }
+  }).catch(err => {
+    const msg = err.message || 'No se pudo completrar la solicitud.';
+    logger.error(' ::: controllers.user.update: Error actualizando el usuario: .', msg);
+    res.status(500).json({ 
+      success: false,
+      message: 'No se pudo actualizar el usuario',
+      errors: [
+        {
+          name: 'server',
+          message: msg
+        }
+      ]
     });
-  } else {
-    res.status(409).json({ message: 'No se pudo actualizar el usuario' });
-  }
+  });
 };
 
 export default {
   getList,
   getOne,
+  getMany,
   create,
-  updateUser,
+  update,
   hashPassword,
 };

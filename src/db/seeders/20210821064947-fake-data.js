@@ -5,7 +5,7 @@ module.exports = {
     const users = [ ...Array(100) ].map(() => ({
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
-      userName: faker.internet.userName(),
+      username: faker.internet.userName(),
       password: faker.internet.password(8),
       email: faker.internet.email(),
       documentNumber: faker.datatype.number(),

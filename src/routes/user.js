@@ -9,13 +9,17 @@ const userRouter = Router();
 userRouter.get('/', userController.getList);
 
 // Get /api/users/{id}
-userRouter.get('/:id', validationUser.getOne, userController.getOne);
+userRouter.get('/:documentNumber', validationUser.getOne, userController.getOne);
+
+// Get /api/users/?filter={"id":[123,456,789]}
+userRouter.get('/', validationUser.getMany, userController.getMany);
 
 // Pots /api/users/
 userRouter.post('/', validationUser.create, userController.create);
 
-userRouter.put('/:id', userController.updateUser);
+// Put /api/users/:documentNumber
+userRouter.put('/:documentNumber', validationUser.update, userController.update);
 
-userRouter.delete('/:id', userController.updateUser);
+userRouter.delete('/:documentNumber', userController.update);
 
 export default userRouter;

@@ -15,9 +15,34 @@ const create = (req, res, next) => {
 const getOne = (req, res, next) => {
   logger.info(' ::: middleware.validation.user.getOne');
   const validationRule = {
-    id: 'required|numeric',
+    documentNumber: 'required|numeric',
   };
   validator(req.params, validationRule, {}, (err, status) => response400(res, next, err, status));
 };
 
-export default { create, getOne };
+const getMany = (req, res, next) => {
+  logger.info(' ::: middleware.validation.user.getOne');
+  const validationRule = {
+    id: 'required|array',
+  };
+  validator(req.query, validationRule, {}, (err, status) => response400(res, next, err, status));
+};
+
+
+const update = (req, res, next) => {
+  logger.info(' ::: middleware.validation.user.update');
+  const validationRule = {
+    documentNumber: 'required|string',
+  };
+  validator(req.params, validationRule, {}, (err, status) => response400(res, next, err, status));
+};
+
+const deleteBody = (req, res, next) => {
+  logger.info(' ::: middleware.validation.user.update');
+  const validationRule = {
+    status: 'required|string',
+  };
+  validator(req.params, validationRule, {}, (err, status) => response400(res, next, err, status));
+};
+
+export default { create, getOne, getMany, update, deleteBody };
