@@ -79,8 +79,10 @@ const login = async (req, res) => {
 
   db.User.findOne({
     where: { documentNumber, email },
+    attributes: ['password','documentNumber','email'],
   })
     .then(async (user) => {
+      console.log(JSON.parse(JSON.stringify(user)).password);
       if (user) {
         logger.info(
           ' ::: controller.auth.login: Combinacion documentNumber/email valida.'
@@ -355,7 +357,7 @@ const forgotPassword = async (req, res) => {
         };
         const passwordResetToken = getToken(payloadToken);
         logger.info(
-          ' ::: controller.auth.forgotPassword: token generado, guardando el token..'
+          ' ::: controller.auth.forgotPassword: token generado, guardando el token.'
         );
         updateUser(
           { passwordResetToken },
@@ -422,6 +424,7 @@ const resetPassword = async (req, res) => {
       where: {
         passwordResetToken: req.body.passwordResetToken,
       },
+      attributes: ['id','passwordResetToken']
     })
       .then(async (user) => {
         if (user) {
@@ -470,7 +473,7 @@ const resetPassword = async (req, res) => {
   }
 };
 
-export {
+export default {
   login,
   authenticate,
   token,
@@ -478,4 +481,5 @@ export {
   updatePassword,
   forgotPassword,
   resetPassword,
+  getToken
 };

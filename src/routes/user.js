@@ -1,16 +1,25 @@
 import { Router } from 'express';
-import * as userController from '../controllers/user';
+import userController from '../controllers/user';
+import validationUser from '../middleware/validation/user';
 
 const userRouter = Router();
 
-userRouter.get('/', userController.getListUser);
+// Get /api/users?sort=["updateAt","ASC"]&range=[0,10]&
+// filter={"lastName":"Pacho"}&attributes=["firstName","email"]
+userRouter.get('/', validationUser.getList, userController.getList);
 
-userRouter.get('/:id', userController.getOneUser);
+// Get /api/users/{id}
+userRouter.get('/:documentNumber', validationUser.getOne, userController.getOne);
 
-userRouter.post('/', userController.createUser);
+// Get /api/users/?filter={"id":[123,456,789]}
+userRouter.get('/', validationUser.getMany, userController.getMany);
 
-userRouter.put('/:id', userController.updateUser);
+// Pots /api/users/
+userRouter.post('/', validationUser.create, userController.create);
 
-userRouter.delete('/:id', userController.updateUser);
+// Put /api/users/:documentNumber
+userRouter.put('/:documentNumber', validationUser.update, userController.update);
+
+userRouter.delete('/:documentNumber', userController.update);
 
 export default userRouter;

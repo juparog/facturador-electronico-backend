@@ -46,7 +46,7 @@ export class User extends Model {
         },
         status: {
           type: DataTypes.ENUM,
-          values: [ 'ACTIVE', 'INACTIVE' ],
+          values: ['ACTIVE', 'INACTIVE'],
           defaultValue: 'ACTIVE',
         },
         passwordResetToken: {
@@ -55,6 +55,10 @@ export class User extends Model {
       },
       {
         tableName: 'Users',
+        defaultScope: {
+          where: { status: 'ACTIVE'},
+          attributes: { exclude: ['password', 'passwordResetToken'] },
+        },
         sequelize,
       }
     );

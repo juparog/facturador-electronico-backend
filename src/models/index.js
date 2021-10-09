@@ -4,6 +4,7 @@ import { logger } from '../helpers/console';
 
 // modelos
 import { User } from './user';
+import { Product } from './product';
 
 const env = configEnv.get('env') || 'development';
 const config = require('../config/db/babelHook')[env];
@@ -27,6 +28,7 @@ if (config.useEnvVariable && config.useEnvVariable !== '') {
 // iniciar los modelos
 const models = {
   User: User.init(sequelize, Sequelize),
+  Product: Product.init(sequelize, Sequelize)
 };
 
 // ejecutar las relaciones si existen para cada modelo

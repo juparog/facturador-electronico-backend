@@ -1,42 +1,42 @@
 import { Router } from 'express';
-import * as authController from '../controllers/auth';
-import * as validation from '../middleware/validation/auth';
+import authController from '../controllers/auth';
+import validationAuth from '../middleware/validation/auth';
 
 const userRouter = Router();
 
 // Post /api/auth/login
-userRouter.post('/login', validation.login, authController.login);
+userRouter.post('/login', validationAuth.login, authController.login);
 
 // Post /api/auth/token
 userRouter.post(
   '/token',
   authController.authenticate,
-  validation.token,
+  validationAuth.token,
   authController.token
 );
 
 // Post /api/auth/logout
-userRouter.post('/logout', validation.logout, authController.logout);
+userRouter.post('/logout', validationAuth.logout, authController.logout);
 
 // Post /api/auth/update-password
 userRouter.post(
   '/update-password',
   authController.authenticate,
-  validation.updatePassword,
+  validationAuth.updatePassword,
   authController.updatePassword
 );
 
 // Post /api/auth/forgot-password
 userRouter.post(
   '/forgot-password',
-  validation.forgotPassword,
+  validationAuth.forgotPassword,
   authController.forgotPassword
 );
 
 // Post /api/auth/reset-password
 userRouter.post(
   '/reset-password',
-  validation.resetPassword,
+  validationAuth.resetPassword,
   authController.resetPassword
 );
 
