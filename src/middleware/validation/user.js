@@ -1,6 +1,16 @@
 import { validator, response400 } from '../../helpers/validate';
 import { logger } from '../../helpers/console';
 
+const getList = () => {
+  logger.info(' ::: middleware.validation.user.getList');
+  const validationRule = {
+    order: {
+      firstName: 'required|string',
+    }
+  };
+  validator(req.body, validationRule, {}, (err, status) => response400(res, next, err, status));
+}
+
 const create = (req, res, next) => {
   logger.info(' ::: middleware.validation.user.create');
   const validationRule = {
@@ -45,4 +55,4 @@ const deleteBody = (req, res, next) => {
   validator(req.params, validationRule, {}, (err, status) => response400(res, next, err, status));
 };
 
-export default { create, getOne, getMany, update, deleteBody };
+export default { getList, create, getOne, getMany, update, deleteBody };

@@ -6,7 +6,7 @@ const userRouter = Router();
 
 // Get /api/users?sort=["updateAt","ASC"]&range=[0,10]&
 // filter={"lastName":"Pacho"}&attributes=["firstName","email"]
-userRouter.get('/', userController.getList);
+userRouter.get('/', validationUser.getList, userController.getList);
 
 // Get /api/users/{id}
 userRouter.get('/:documentNumber', validationUser.getOne, userController.getOne);

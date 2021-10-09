@@ -1,5 +1,7 @@
 import Validator from 'validatorjs';
-import { logger } from './console';
+import {
+  logger
+} from './console';
 import db from '../models';
 
 Validator.useLang('es');
@@ -44,14 +46,20 @@ Validator.registerAsync('exists', async (value, attribute, req, passes) => {
   }
 
   // asignar el índice de matriz 0 y 1 a la tabla y la columna respectivamente
-  const { 0: model, 1: column, 2: condition } = attArr;
+  const {
+    0: model,
+    1: column,
+    2: condition
+  } = attArr;
   // definir mensaje de error personalizado
   const msg = `El valor de ${column} ${
     condition === '0' ? 'no' : 'ya'
   } existe.`;
   // comprobar si el valor entrante ya existe en la base de datos
   const filter = JSON.parse(`{"${column}": "${value}"}`);
-  const count = await db[`${model}`].count({ where: filter });
+  const count = await db[`${model}`].count({
+    where: filter
+  });
 
   const flag = condition === '0' ? count : !count;
   if (flag) {
@@ -92,7 +100,10 @@ Validator.registerAsync(
 
     // asignar el índice de matriz 0 y 1 a la tabla y la columna respectivamente
     const {
-      0: model, 1: columnFilter, 2: columnValue, 3: valueAttr
+      0: model,
+      1: columnFilter,
+      2: columnValue,
+      3: valueAttr
     } = attArr;
     // definir mensaje de error personalizado
     const msg = `Para el atributo ${columnFilter} el recurso ${model} NO tiene ${columnValue} en ${valueAttr}`;
@@ -100,7 +111,9 @@ Validator.registerAsync(
     const filter = JSON.parse(
       `{"${columnFilter}": "${value}", "${columnValue}": "${valueAttr}"}`
     );
-    const count = await db[`${model}`].count({ where: filter });
+    const count = await db[`${model}`].count({
+      where: filter
+    });
     if (count) {
       logger.info(
         ' ::: helpers.registerAsync.brother-field-value: Validacion [true]'
@@ -135,7 +148,7 @@ const validator = (body, rules, customMessages, callback) => {
 };
 
 const response400 = (res, next, err, status) => {
-  logger.info(' ::: middleware.validation.auth.response400');
+  logger.info(' ::: helpers.validator.response400');
   if (!status) {
     res.status(400).json({
       success: false,
@@ -147,4 +160,40 @@ const response400 = (res, next, err, status) => {
   }
 };
 
-export { validator, response400 };
+const justProperties = (object, props) => {
+  logger.info(' ::: helpers.validator.justProperties');
+  let newObject = {};
+  Object.keys(object).forEach((key) => {
+    if (props.find(element => element == key)) {
+      newObject[key] = object[key];
+    }
+  });
+  return newObject;
+};
+
+const getJsonQuerys = (query) => new Promise((resolve, reject) => {
+  logger.info(' ::: helpers.validator.getJsonQuerys');
+  let jsonQuery = {};
+  let errors = [];
+  Object.keys(query).forEach((key) => {
+    try {
+      jsonQuery[key] = JSON.parse(query[key]);
+    } catch (err) {
+      errors.push({
+        name: key,
+        message: `El valor de ${key} no es valido para una estructura json`
+      });
+    }
+  });
+  if(errors.length){
+    reject(errors)
+  }
+  resolve(jsonQuery);
+});
+
+export {
+  validator,
+  response400,
+  justProperties,
+  getJsonQuerys
+};

@@ -3,6 +3,7 @@ import faker from 'faker';
 import db from '../models';
 import { logger } from '../helpers/console';
 import authController from '../controllers/auth';
+import {justProperties} from '../helpers/validate';
 
 const hashPassword = async (password) => {
   logger.info(' ::: controllers.user.hashPassword');
@@ -16,7 +17,7 @@ const hashPassword = async (password) => {
 const getList = (req, res) => {
   logger.info(' ::: controllers.user.getList');
   const { query } = req;
-  const order = query.sort || null;
+  const order = query.sort || null; // sort=["updateAt","ASC"]
   const where = query.filter || '{}';
   const attributes = query.attributes || null;
   const range = query.range || null;
@@ -212,13 +213,7 @@ const create = async (req, res) => {
 
 const update = (req, res) => {
   logger.info(' ::: controllers.user.update');
-  const  body = req.body;
-  delete body.id;
-  delete body.documentNumber;
-  delete body.email;
-  delete body.password;
-  delete body.passwordResetToken;
-  delete body.createdAt;
+  const body = justProperties(req.body,['lastName','firstName','email']);
   db.User.update(body, {
     where: {
       documentNumber: req.params.documentNumber,
