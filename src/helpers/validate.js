@@ -186,9 +186,10 @@ const getJsonQuerys = (query) => new Promise((resolve, reject) => {
     }
   });
   if(errors.length){
-    reject(errors)
+    logger.error(' ::: helpers.validator.getJsonQuerys: Parametros del query mal formados.');
+    return reject({message: 'helpers.validator.getJsonQuerys', errors});
   }
-  resolve(jsonQuery);
+  return resolve(jsonQuery);
 });
 
 export {

@@ -1,13 +1,9 @@
 import { validator, response400 } from '../../helpers/validate';
 import { logger } from '../../helpers/console';
 
-const getList = () => {
+const getList = (req, res, next) => {
   logger.info(' ::: middleware.validation.user.getList');
-  const validationRule = {
-    order: {
-      firstName: 'required|string',
-    }
-  };
+  const validationRule = {};
   validator(req.body, validationRule, {}, (err, status) => response400(res, next, err, status));
 }
 

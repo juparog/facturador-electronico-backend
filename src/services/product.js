@@ -3,17 +3,12 @@ import {logger} from '../helpers/console';
 import errorBuilder from '../helpers/errorBuilder';
 import {getJsonQuerys} from '../helpers/validate';
 
-const getList = (query = {}) => new Promise(async (resolve, reject) => {
+const getList = (query = {}) => new Promise((resolve, reject) => {
   logger.info(' ::: services.product.getList');
-  let jsonQuery = await getJsonQuerys(query)
-    .then(data => data)
-    .catch(errors => {
-      logger.error(' ::: services.product.getList: Parametros del query mal formados.');
-      reject(errorBuilder.simpleErrorWithArray(400,'Parametros del query mal formados.',errors));
-    });
-  models.Product.findAll(jsonQuery)
+  getJsonQuerys(query)
+    .then(jsonQuery => models.Product.findAll(jsonQuery))
     .then(data => {
-      resolve({
+      return resolve({
         success: true,
         message: 'Lista de productos.',
         data: data,
@@ -21,15 +16,18 @@ const getList = (query = {}) => new Promise(async (resolve, reject) => {
       });
     })
     .catch(err => {
-      logger.error(' ::: services.product.getList: ', err.message || err);
-      reject(errorBuilder.simpleError(500,'Error consultando los productos.','server',err));
-    })
+      switch (err.message) {
+        case 'helpers.validator.getJsonQuerys':
+          logger.error(' ::: services.product.getList: No se pudieron transformar los parametros del query.');
+          reject(errorBuilder.simpleErrorWithArray(400,'Parametros del query mal formados.',err.errors));
+          break;
+        default:
+          logger.error(' ::: services.product.getList: ', err.message || err);
+          reject(errorBuilder.simpleError(500,'Error consultando los productos.','server',err));
+          break;
+      }
+    });
 });
-
-// {
-//   logger.info(' ::: service.product.getList');
-//   return models.Product.findAll();
-// }
 
 export default {
   getList
