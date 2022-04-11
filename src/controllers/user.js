@@ -1,69 +1,82 @@
 import bcrypt from 'bcrypt';
 import faker from 'faker';
-import db from '../models';
-import { logger } from '../helpers/console';
-import authController from '../controllers/auth';
-import {justProperties} from '../helpers/validate';
+import db from '../models/index.model';
+import { logger } from '../helpers/logger';
+import authController from './auth.controller';
+import userService from '../services/user';
+import { justProperties } from '../helpers/validate';
+import { parentLogger, getCallerFile } from '../helpers/logger';
+
+const log = parentLogger.child({location: `src/controllers/${getCallerFile()}`});
 
 const hashPassword = async (password) => {
-  logger.info(' ::: controllers.user.hashPassword');
+  log.debug('funcion hashPassword');
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
-  logger.info(' ::: controllers.user.hashPassword: Contraseña encriptada');
+  log.debug('Contraseña encriptada');
   return hash;
 };
 
 // trcuperar una lista de ususarios
 const getList = (req, res) => {
   logger.info(' ::: controllers.user.getList');
-  const { query } = req;
-  const order = query.sort || null; // sort=["updateAt","ASC"]
-  const where = query.filter || '{}';
-  const attributes = query.attributes || null;
-  const range = query.range || null;
-  const offset = range ? JSON.parse(range)[0] : 0;
-  const limit = range ? JSON.parse(range)[1] : 6;
-  let totalRecords = 0;
-  db.User.count({
-    where: JSON.parse(where),
-  })
-    .then((amount) => {
-      totalRecords = amount;
-      return db.User.findAll({
-        order: order ? [ JSON.parse(order) ] : null,
-        where: JSON.parse(where),
-        attributes: attributes ? JSON.parse(attributes) : null,
-        offset,
-        limit,
-      });
-    })
+  userService
+    .getList(req.query)
     .then((data) => {
-      const users = JSON.parse(JSON.stringify(data));
-      users.forEach((user) => {
-        delete user.password;
-        delete user.passwordResetToken;
-      });
-      res.status(200).json({
-        success: true,
-        message: 'Lista de usuarios.',
-        data: users,
-        total: totalRecords,
-      });
+      res.status(200).json(data);
     })
     .catch((err) => {
-      const msg = err.message || 'No se pudo completrar la solicitud.';
-      logger.error(` ::: controller.user.getOne: ${msg}`);
-      res.status(500).json({
-        success: false,
-        message: 'No se encontraron usuarios disponibles',
-        errors: [
-          {
-            name: 'server',
-            message: msg,
-          },
-        ],
-      });
+      logger.error(` ::: controllers.user.getList: ${err.detail.message}`);
+      res.status(err.code).json(err.detail);
     });
+  // const { query } = req;
+  // const order = query.sort || null; // sort=["updateAt","ASC"]
+  // const where = query.where || '{}';
+  // const attributes = query.attributes || null;
+  // const range = query.range || null;
+  // const offset = range ? JSON.parse(range)[0] : 0;
+  // const limit = range ? JSON.parse(range)[1] : 6;
+  // let totalRecords = 0;
+  // db.User.count({
+  //   where: JSON.parse(where),
+  // })
+  //   .then((amount) => {
+  //     totalRecords = amount;
+  //     return db.User.findAll({
+  //       order: order ? [ JSON.parse(order) ] : null,
+  //       where: JSON.parse(where),
+  //       attributes: attributes ? JSON.parse(attributes) : null,
+  //       offset,
+  //       limit,
+  //     });
+  //   })
+  //   .then((data) => {
+  //     const users = JSON.parse(JSON.stringify(data));
+  //     users.forEach((user) => {
+  //       delete user.password;
+  //       delete user.passwordResetToken;
+  //     });
+  //     res.status(200).json({
+  //       success: true,
+  //       message: 'Lista de usuarios.',
+  //       data: users,
+  //       total: totalRecords,
+  //     });
+  //   })
+  //   .catch((err) => {
+  //     const msg = err.message || 'No se pudo completrar la solicitud.';
+  //     logger.error(` ::: controller.user.getOne: ${msg}`);
+  //     res.status(500).json({
+  //       success: false,
+  //       message: 'No se encontraron usuarios disponibles',
+  //       errors: [
+  //         {
+  //           name: 'server',
+  //           message: msg,
+  //         },
+  //       ],
+  //     });
+  //   });
 };
 
 // recuperar un usurio por id
@@ -193,7 +206,7 @@ const create = async (req, res) => {
       .then((data) => {
         const user = JSON.parse(JSON.stringify(data));
         delete user.password;
-        authController.forgotPassword({body: {email: user.email}}, res);
+        authController.forgotPassword({ body: { email: user.email } }, res);
       })
       .catch((err) => {
         logger.error(` ::: controllers.user.create: Eroor: ${err}`);
@@ -213,48 +226,53 @@ const create = async (req, res) => {
 
 const update = (req, res) => {
   logger.info(' ::: controllers.user.update');
-  const body = justProperties(req.body,['lastName','firstName','email']);
+  const body = justProperties(req.body, [ 'lastName', 'firstName', 'email' ]);
   db.User.update(body, {
     where: {
       documentNumber: req.params.documentNumber,
     },
-  }).then(num => {
-    if (num === 1) {
-      logger.info(' ::: controllers.user.update: Usuario actualizado.');
-      res.status(200).json({
-        success: true,
-        message: 'usuario actualizado.',
-        data: {
-          documentNumber: req.params.documentNumber,
-          ...body,
-        },
-      });
-    } else {
-      res.status(400).json({ 
+  })
+    .then((num) => {
+      if (num === 1) {
+        logger.info(' ::: controllers.user.update: Usuario actualizado.');
+        res.status(200).json({
+          success: true,
+          message: 'usuario actualizado.',
+          data: {
+            documentNumber: req.params.documentNumber,
+            ...body,
+          },
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: 'Usuario no actualizado.',
+          errors: [
+            {
+              name: 'documentNumber',
+              message: 'El documentNumber no existe.',
+            },
+          ],
+        });
+      }
+    })
+    .catch((err) => {
+      const msg = err.message || 'No se pudo completrar la solicitud.';
+      logger.error(
+        ' ::: controllers.user.update: Error actualizando el usuario: .',
+        msg
+      );
+      res.status(500).json({
         success: false,
-        message: 'Usuario no actualizado.',
+        message: 'No se pudo actualizar el usuario',
         errors: [
           {
-            name: 'documentNumber',
-            message: 'El documentNumber no existe.'
-          }
-        ]
+            name: 'server',
+            message: msg,
+          },
+        ],
       });
-    }
-  }).catch(err => {
-    const msg = err.message || 'No se pudo completrar la solicitud.';
-    logger.error(' ::: controllers.user.update: Error actualizando el usuario: .', msg);
-    res.status(500).json({ 
-      success: false,
-      message: 'No se pudo actualizar el usuario',
-      errors: [
-        {
-          name: 'server',
-          message: msg
-        }
-      ]
     });
-  });
 };
 
 export default {

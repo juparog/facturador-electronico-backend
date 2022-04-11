@@ -1,33 +1,72 @@
+import { logger } from './logger-old';
 
 const simpleError = (code, message, name, err) => {
-  const msg = err.message || '' + err;
+  logger.error(' ::: helpers.errorBuilder.simpleError.');
+  const msg = err.message || `${err}`;
   return {
-    code: code,
+    code,
     detail: {
       success: false,
-      message: message,
+      message,
       errors: [
         {
-          name: name,
+          name,
           message: msg,
         },
       ],
-    }
+    },
   };
-}
+};
 
-const simpleErrorWithArray = (code, message, errors) => {
+const errorWithArray = (code, message, errors) => {
+  logger.error(' ::: helpers.errorBuilder.errorWithArray.');
   return {
-    code: code,
+    code,
     detail: {
       success: false,
-      message: message,
-      errors: errors,
-    }
+      message,
+      errors,
+    },
   };
-}
+};
+
+const errorSwitch = (err) => {
+  logger.error(' ::: helpers.errorBuilder.errorSwitch.');
+  let msg = 'Error realizando la operacion.';
+  switch (err.name) {
+  case 'SequelizeUniqueConstraintError':
+    msg = 'Error por regla de campos únicos.';
+    logger.error(` ::: helpers.errorBuilder.errorSwitch: ${msg}: `);
+    return errorWithArray(
+      400,
+      msg,
+      err.errors
+    );
+  case 'GetJsonQueryError':
+    msg = 'Parametros del query mal formados.';
+    logger.error(` ::: helpers.errorBuilder.errorSwitch: ${msg}: `);
+    return errorWithArray(
+      400,
+      msg,
+      err.errors
+    );
+  case 'SequelizeDatabaseError':
+    msg = 'Error ejecutando la consulta sql.'
+    logger.error(` ::: helpers.errorBuilder.errorSwitch: ${msg}: `);
+    return simpleError(
+      500,
+      msg,
+      'database',
+      err
+    );
+  default:
+    logger.error(' ::: helpers.errorBuilder.errorSwitch: ', err.message || err);
+    return simpleError(500, msg, 'server', err);
+  }
+};
 
 export default {
   simpleError,
-  simpleErrorWithArray
-}
+  errorWithArray,
+  errorSwitch,
+};

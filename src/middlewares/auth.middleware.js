@@ -1,5 +1,5 @@
-import { validator, response400 } from '../../helpers/validate';
-import { logger } from '../../helpers/console';
+import { validator, response400 } from '../helpers/validate';
+import { logger } from '../helpers/logger';
 
 const login = (req, res, next) => {
   logger.info(' ::: middleware.validation.auth.login');

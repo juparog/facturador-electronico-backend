@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 import randtoken from 'rand-token';
 import bcrypt from 'bcrypt';
-import db from '../models';
-import { logger } from '../helpers/console';
+import db from '../models/index.model';
+import {  } from '../helpers/logger';
 import { configEnv } from '../config/env/config';
-import { sendEmailForgotPassword } from '../helpers/mail';
+import { sendEmailForgotPassword } from '../helpers/emails/mail';
 
 let refreshTokens = [];
 
@@ -79,10 +79,9 @@ const login = async (req, res) => {
 
   db.User.findOne({
     where: { documentNumber, email },
-    attributes: ['password','documentNumber','email'],
+    attributes: [ 'password', 'documentNumber', 'email' ],
   })
     .then(async (user) => {
-      console.log(JSON.parse(JSON.stringify(user)).password);
       if (user) {
         logger.info(
           ' ::: controller.auth.login: Combinacion documentNumber/email valida.'
@@ -424,7 +423,7 @@ const resetPassword = async (req, res) => {
       where: {
         passwordResetToken: req.body.passwordResetToken,
       },
-      attributes: ['id','passwordResetToken']
+      attributes: [ 'id', 'passwordResetToken' ],
     })
       .then(async (user) => {
         if (user) {
@@ -481,5 +480,5 @@ export default {
   updatePassword,
   forgotPassword,
   resetPassword,
-  getToken
+  getToken,
 };

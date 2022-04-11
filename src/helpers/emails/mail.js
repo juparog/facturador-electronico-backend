@@ -6,7 +6,7 @@
 
 // const sendEmailForgotPassword = async (user, passwordResetToken) => {
 //   logger.info(' ::: helpers.mail.sendEmailForgotPassword');
-//   const emailTemplatePath = path.join(__dirname, '../emails/resetPassword');
+//   const emailTemplatePath = path.join(__dirname, './emails/resetPassword');
 //   const email = new Email({
 //     message: {
 //       from: `"${configEnv.get('app.name')}" <${configEnv.get('smtp.user')}>`,
@@ -42,14 +42,14 @@
 // };
 
 import sgMail from '@sendgrid/mail';
-import { logger } from './console';
-import { configEnv } from '../config/env/config';
+import { logger } from '../logger';
+import { configEnv } from '../../config/env/config';
 
 const sgMailApiKey = configEnv.get('sendGrid.apiKey');
 sgMail.setApiKey(sgMailApiKey);
 
 const sendEmailForgotPassword = async (user, passwordResetToken) => {
-  logger.info(' ::: helpers.mail.sendEmailForgotPassword');
+  logger.info(' ::: helpers.emails.mail.sendEmailForgotPassword');
   const msg = {
     to: user.email,
     from: {

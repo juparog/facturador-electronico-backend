@@ -1,29 +1,33 @@
 import { Model } from 'sequelize';
 
-export class Product extends Model {
+export class Category extends Model {
   static init(sequelize, DataTypes) {
     return super.init(
       {
         name: {
           type: DataTypes.STRING(256),
           allowNull: false,
+          unique: {
+            args: true,
+            msg: 'El nombre de la categoria debe ser único.',
+          },
+        },
+        parent: {
+            type: DataTypes.INTEGER,
         },
         description: {
           type: DataTypes.STRING(1000),
         },
-        code: {
-          type: DataTypes.STRING(256),
-        },
         status: {
           type: DataTypes.ENUM,
-          values: ['ACTIVE', 'INACTIVE'],
+          values: [ 'ACTIVE', 'INACTIVE' ],
           defaultValue: 'ACTIVE',
-        }
+        },
       },
       {
-        tableName: 'Product',
+        tableName: 'Categories',
         defaultScope: {
-          where: { status: 'ACTIVE'}
+          where: { status: 'ACTIVE' },
         },
         sequelize,
       }

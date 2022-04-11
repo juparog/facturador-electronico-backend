@@ -72,12 +72,14 @@ module.exports = {
       default: 'auth/reset-password',
       env: 'SMTP_RESET_PASSWORD',
     },
-    logging: {
-      doc: 'Impresion de log con informacion para la aplicacion',
-      format: Boolean,
-      default: true,
-      env: 'APP_LOGGING_INFO',
-    },
+    logger: {
+      logLevel: {
+        doc: 'Nivel de impresion de log para la aplicacion.',
+        format: [ 'debug', 'trace', 'http', 'info', 'warn', 'error', 'fatal', ],
+        default: 'trace',
+        env: 'APP_LOGGER_LOGLEVEL',
+      },
+    }
   },
   db: {
     dialect: {

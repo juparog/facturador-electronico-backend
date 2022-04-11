@@ -1,0 +1,242 @@
+[32mINFO[39m [2022-04-11 00:57:42.807] (FacturadorElectronicoDev): [36mconfig/db/index.js: Configuracion de base de datos.[39m
+    location: "config/db/index.js"
+[32mINFO[39m [2022-04-11 00:57:42.816] (FacturadorElectronicoDev): [36mconfig/db/index.js: Configuracion de la db cargada correctamente.[39m
+    location: "config/db/index.js"
+[32mINFO[39m [2022-04-11 00:57:44.400] (FacturadorElectronicoDev): [36mbin/D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\src\bin\www.js: Iniciando la aplicación...[39m
+    location: "bin/D:\\Users\\USUARIO\\Documents\\juan-rg\\facturador-electronico\\backend\\src\\bin\\www.js"
+[32mINFO[39m [2022-04-11 00:57:44.447] (FacturadorElectronicoDev): [36mbin/D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\src\bin\www.js: Servidor escuchando en http://localhost:4000[39m
+    location: "bin/D:\\Users\\USUARIO\\Documents\\juan-rg\\facturador-electronico\\backend\\src\\bin\\www.js"
+[32mINFO[39m [2022-04-11 00:58:43.889] (FacturadorElectronicoDev): [36mconfig/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 00:58:43.897] (FacturadorElectronicoDev): [36mconfig/db/index.js: Configuracion de la db cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 00:58:45.511] (FacturadorElectronicoDev): [36mbin/D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\src\bin\www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 00:58:45.571] (FacturadorElectronicoDev): [36mbin/D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\src\bin\www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 00:59:15.500] (FacturadorElectronicoDev): [36mconfig/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 00:59:15.509] (FacturadorElectronicoDev): [36mconfig/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 00:59:17.271] (FacturadorElectronicoDev): [36mbin/D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\src\bin\www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 00:59:17.325] (FacturadorElectronicoDev): [36mbin/D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\src\bin\www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:01:29.802] (FacturadorElectronicoDev): [36mconfig/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:01:29.810] (FacturadorElectronicoDev): [36mconfig/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:01:31.292] (FacturadorElectronicoDev): [36mbin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:01:31.349] (FacturadorElectronicoDev): [36mbin/www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:02:08.285] (FacturadorElectronicoDev): [36mconfig/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:02:08.293] (FacturadorElectronicoDev): [36mconfig/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:02:09.951] (FacturadorElectronicoDev): [36mbin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:02:10.005] (FacturadorElectronicoDev): [36mbin/www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:10:15.050] (FacturadorElectronicoDev): [36mconfig/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:10:15.058] (FacturadorElectronicoDev): [36mconfig/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:10:16.979] (FacturadorElectronicoDev): [36mbin/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:10:16.983] (FacturadorElectronicoDev): [36mbin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:10:17.035] (FacturadorElectronicoDev): [36mbin/www.js: Servidor escuchando en http://localhost:4000[39m
+[31mERROR[39m [2022-04-11 01:10:17.603] (FacturadorElectronicoDev): [36mbin/db.js: Error sincronizando la db:[39m
+[32mINFO[39m [2022-04-11 01:10:47.233] (FacturadorElectronicoDev): [36mconfig/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:10:47.240] (FacturadorElectronicoDev): [36mconfig/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:10:48.817] (FacturadorElectronicoDev): [36mbin/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:10:48.821] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:10:48.882] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[31mERROR[39m [2022-04-11 01:10:49.280] (FacturadorElectronicoDev): [36mbin/db.js: Error sincronizando la db:[39m
+[32mINFO[39m [2022-04-11 01:11:19.120] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:11:19.127] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:11:20.818] (FacturadorElectronicoDev): [36mbin/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:11:20.822] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:11:20.878] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[31mERROR[39m [2022-04-11 01:11:21.295] (FacturadorElectronicoDev): [36mbin/db.js: Error sincronizando la db:[39m
+[32mINFO[39m [2022-04-11 01:11:48.397] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:11:48.405] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:11:50.115] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:11:50.119] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:11:50.167] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[31mERROR[39m [2022-04-11 01:11:50.594] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Error sincronizando la db:[39m
+[32mINFO[39m [2022-04-11 01:14:43.775] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:14:43.786] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:14:45.506] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:14:45.510] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:14:45.562] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[31mERROR[39m [2022-04-11 01:14:46.011] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Too many keys specified; max 64 keys allowed[39m
+    err: {
+      "type": "DatabaseError",
+      "message": "Too many keys specified; max 64 keys allowed",
+      "stack":
+          Error: 
+              at Query.run (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\sequelize\src\dialects\mysql\query.js:46:25)
+              at D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\sequelize\src\sequelize.js:643:28
+              at processTicksAndRejections (node:internal/process/task_queues:96:5)
+              at Function.sync (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\sequelize\src\model.js:1396:11)
+              at Sequelize.sync (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\sequelize\src\sequelize.js:817:35)
+      "name": "SequelizeDatabaseError",
+      "parent": {
+        "type": "Error",
+        "message": "Too many keys specified; max 64 keys allowed",
+        "stack":
+            Error: Too many keys specified; max 64 keys allowed
+                at Packet.asError (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\mysql2\lib\packets\packet.js:712:17)
+                at Query.execute (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\mysql2\lib\commands\command.js:28:26)
+                at Connection.handlePacket (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\mysql2\lib\connection.js:425:32)
+                at PacketParser.onPacket (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\mysql2\lib\connection.js:75:12)
+                at PacketParser.executeStart (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\mysql2\lib\packet_parser.js:75:16)
+                at Socket.<anonymous> (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\mysql2\lib\connection.js:82:25)
+                at Socket.emit (node:events:526:28)
+                at Socket.emit (node:domain:475:12)
+                at addChunk (node:internal/streams/readable:315:12)
+                at readableAddChunk (node:internal/streams/readable:289:9)
+        "code": "ER_TOO_MANY_KEYS",
+        "errno": 1069,
+        "sqlState": "42000",
+        "sqlMessage": "Too many keys specified; max 64 keys allowed",
+        "sql": "ALTER TABLE `Users` CHANGE `email` `email` VARCHAR(120) NOT NULL UNIQUE;"
+      },
+      "original": {
+        "type": "Error",
+        "message": "Too many keys specified; max 64 keys allowed",
+        "stack":
+            Error: Too many keys specified; max 64 keys allowed
+                at Packet.asError (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\mysql2\lib\packets\packet.js:712:17)
+                at Query.execute (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\mysql2\lib\commands\command.js:28:26)
+                at Connection.handlePacket (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\mysql2\lib\connection.js:425:32)
+                at PacketParser.onPacket (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\mysql2\lib\connection.js:75:12)
+                at PacketParser.executeStart (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\mysql2\lib\packet_parser.js:75:16)
+                at Socket.<anonymous> (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\mysql2\lib\connection.js:82:25)
+                at Socket.emit (node:events:526:28)
+                at Socket.emit (node:domain:475:12)
+                at addChunk (node:internal/streams/readable:315:12)
+                at readableAddChunk (node:internal/streams/readable:289:9)
+        "code": "ER_TOO_MANY_KEYS",
+        "errno": 1069,
+        "sqlState": "42000",
+        "sqlMessage": "Too many keys specified; max 64 keys allowed",
+        "sql": "ALTER TABLE `Users` CHANGE `email` `email` VARCHAR(120) NOT NULL UNIQUE;"
+      },
+      "sql": "ALTER TABLE `Users` CHANGE `email` `email` VARCHAR(120) NOT NULL UNIQUE;",
+      "parameters": {}
+    }
+[32mINFO[39m [2022-04-11 01:16:07.716] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:16:07.727] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:16:09.735] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:16:09.739] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:16:09.794] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:16:13.847] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizacion de la DB completa![39m
+[32mINFO[39m [2022-04-11 01:17:23.833] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:17:23.841] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:17:25.565] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:17:25.569] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:17:25.620] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:17:27.148] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizacion de la DB completa![39m
+[32mINFO[39m [2022-04-11 01:18:49.145] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:18:49.154] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:18:51.082] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:18:51.086] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:18:51.136] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:18:52.897] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizacion de la DB completa![39m
+[32mINFO[39m [2022-04-11 01:20:14.728] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:20:14.739] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:20:16.807] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:20:16.811] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:20:16.873] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:20:18.211] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando categorias...[39m
+[32mINFO[39m [2022-04-11 01:20:18.233] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizacion de las categorias completa!.[39m
+[31mERROR[39m [2022-04-11 01:20:18.237] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: logger is not defined[39m
+    err: {
+      "type": "ReferenceError",
+      "message": "logger is not defined",
+      "stack":
+          ReferenceError: logger is not defined
+              at _callee2$ (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\src\helpers\db\/syncDefaults.js:25:3)
+              at tryCatch (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\regenerator-runtime\runtime.js:63:40)
+              at Generator.invoke [as _invoke] (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\regenerator-runtime\runtime.js:293:22)
+              at Generator.next (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\regenerator-runtime\runtime.js:118:21)
+              at asyncGeneratorStep (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:24)
+              at _next (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:25:9)
+              at D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:32:7
+              at new Promise (<anonymous>)
+              at Object.<anonymous> (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:21:12)
+              at Object.users (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\src\helpers\db\/syncDefaults.js:23:12)
+    }
+[32mINFO[39m [2022-04-11 01:21:10.731] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:21:10.743] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:21:12.452] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:21:12.456] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:21:12.504] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:21:13.676] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando categorias...[39m
+[32mINFO[39m [2022-04-11 01:21:13.702] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizacion de las categorias completa!.[39m
+[32mINFO[39m [2022-04-11 01:21:13.705] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando usuarios...[39m
+[32mINFO[39m [2022-04-11 01:21:13.819] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizacion de los usuarios completa!.[39m
+[32mINFO[39m [2022-04-11 01:21:13.820] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizacion de la DB completa![39m
+[32mINFO[39m [2022-04-11 01:23:58.842] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:23:58.850] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:24:00.449] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:24:00.453] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:24:00.501] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:24:01.897] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando categorias...[39m
+[32mINFO[39m [2022-04-11 01:24:01.921] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizacion de las categorias completa!.[39m
+[32mINFO[39m [2022-04-11 01:24:01.926] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando usuarios...[39m
+[32mINFO[39m [2022-04-11 01:24:02.033] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizacion de los usuarios completa!.[39m
+[32mINFO[39m [2022-04-11 01:24:02.034] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizacion de la DB completa![39m
+[32mINFO[39m [2022-04-11 01:26:50.467] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:26:50.475] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:26:51.992] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:26:51.996] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:26:52.044] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:26:53.126] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando categorias...[39m
+[32mINFO[39m [2022-04-11 01:26:53.150] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizacion de las categorias completa!.[39m
+[32mINFO[39m [2022-04-11 01:26:53.152] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando usuarios...[39m
+[32mINFO[39m [2022-04-11 01:26:53.261] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizacion de los usuarios completa!.[39m
+[32mINFO[39m [2022-04-11 01:26:53.262] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizacion de la DB completa![39m
+[32mINFO[39m [2022-04-11 01:29:09.602] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:29:09.611] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:29:11.368] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:29:11.373] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:29:11.437] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:29:55.961] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:29:55.969] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:29:58.017] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:29:58.022] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:29:58.071] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:29:59.577] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando categorias...[39m
+[32mINFO[39m [2022-04-11 01:29:59.603] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizacion de las categorias completa!.[39m
+[32mINFO[39m [2022-04-11 01:29:59.606] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando usuarios...[39m
+[31mERROR[39m [2022-04-11 01:29:59.610] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: LOG_PREFIX is not defined[39m
+    err: {
+      "type": "ReferenceError",
+      "message": "LOG_PREFIX is not defined",
+      "stack":
+          ReferenceError: LOG_PREFIX is not defined
+              at _callee$ (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\src\services\/user.js:12:18)
+              at tryCatch (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\regenerator-runtime\runtime.js:63:40)
+              at Generator.invoke [as _invoke] (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\regenerator-runtime\runtime.js:293:22)
+              at Generator.next (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\regenerator-runtime\runtime.js:118:21)
+              at asyncGeneratorStep (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:24)
+              at _next (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:25:9)
+              at D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:32:7
+              at new Promise (<anonymous>)
+              at Object.<anonymous> (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:21:12)
+              at Object.hashPassword (D:\Users\USUARIO\Documents\juan-rg\facturador-electronico\backend\src\services\/user.js:10:19)
+    }
+[32mINFO[39m [2022-04-11 01:30:55.786] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:30:55.794] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:30:57.474] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:30:57.479] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:30:57.532] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:30:58.850] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando categorias...[39m
+[32mINFO[39m [2022-04-11 01:30:58.874] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizacion de las categorias completa!.[39m
+[32mINFO[39m [2022-04-11 01:30:58.877] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando usuarios...[39m
+[32mINFO[39m [2022-04-11 01:30:58.983] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizacion de los usuarios completa!.[39m
+[32mINFO[39m [2022-04-11 01:30:58.984] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizacion de la DB completa![39m
+[32mINFO[39m [2022-04-11 01:31:31.594] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:31:31.604] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:31:33.338] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:31:33.342] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:31:33.398] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:31:34.785] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando categorias...[39m
+[32mINFO[39m [2022-04-11 01:31:34.808] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizacion de las categorias completa!.[39m
+[32mINFO[39m [2022-04-11 01:31:34.812] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando usuarios...[39m
+[32mINFO[39m [2022-04-11 01:31:34.934] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizacion de los usuarios completa!.[39m
+[32mINFO[39m [2022-04-11 01:31:34.935] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizacion de la DB completa![39m
+[32mINFO[39m [2022-04-11 01:32:25.828] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de base de datos.[39m
+[32mINFO[39m [2022-04-11 01:32:25.836] (FacturadorElectronicoDev): [36msrc/config/db/index.js: Configuracion de la base de datos cargada correctamente.[39m
+[32mINFO[39m [2022-04-11 01:32:27.723] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizando la base de datos...[39m
+[32mINFO[39m [2022-04-11 01:32:27.728] (FacturadorElectronicoDev): [36msrc/bin/www.js: Iniciando la aplicación...[39m
+[32mINFO[39m [2022-04-11 01:32:27.784] (FacturadorElectronicoDev): [36msrc/bin/www.js: Servidor escuchando en http://localhost:4000[39m
+[32mINFO[39m [2022-04-11 01:32:29.066] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando categorias...[39m
+[32mINFO[39m [2022-04-11 01:32:29.099] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizacion de las categorias completa!.[39m
+[32mINFO[39m [2022-04-11 01:32:29.105] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizando usuarios...[39m
+[32mINFO[39m [2022-04-11 01:32:29.312] (FacturadorElectronicoDev): [36msrc/helpers/db/syncDefaults.js: Sincronizacion de los usuarios completa!.[39m
+[32mINFO[39m [2022-04-11 01:32:29.313] (FacturadorElectronicoDev): [36msrc/helpers/db/db.js: Sincronizacion de la DB completa![39m

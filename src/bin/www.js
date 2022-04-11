@@ -2,18 +2,22 @@
 /**
  * Module dependencies.
  */
-import debug from 'debug';
 import http from 'http';
 import app from '../app';
-import { logger } from '../helpers/console';
+import { parentLogger, getCallerFile } from '../helpers/logger';
 
 // variables de ambiente
 import { configEnv } from '../config/env/config';
+
+const log = parentLogger.child({location: `src/bin/${getCallerFile()}`})
+
+log.info('Iniciando la aplicación...')
 
 /**
  * Normalize a port into a number, string, or false.
  */
 const normalizePort = (val) => {
+  log.debug('funcion normalizePort');
   const port = parseInt(val, 10);
   if (Number.isNaN(port)) {
     // named pipe
@@ -44,6 +48,7 @@ const server = http.createServer(app);
  * Event listener for HTTP server "error" event.
  */
 const onError = (error) => {
+  log.debug('funcion onError');
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -51,11 +56,11 @@ const onError = (error) => {
   // handle specific listen errors with friendly messages
   switch (error.code) {
   case 'EACCES':
-    debug(`${bind} requires elevated privileges`);
+    log.error(`${bind} requires elevated privileges`);
     process.exit(1);
     break;
   case 'EADDRINUSE':
-    debug(`${bind} is already in use`);
+    log.error(`is already in use`);
     process.exit(1);
     break;
   default:
@@ -67,10 +72,10 @@ const onError = (error) => {
  * Event listener for HTTP server "listening" event.
  */
 const onListening = () => {
+  log.debug('funcion onListening');
   const addr = server.address();
   const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
-  debug(`Listening on ${bind}`);
-  logger.info(`* Servidor escuchando en http://localhost:${addr.port}`);
+  log.info(`Servidor escuchando en http://localhost:${port}`);
 };
 /**
  * Listen on provided port, on all network interfaces.

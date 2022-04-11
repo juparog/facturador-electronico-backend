@@ -1,8 +1,6 @@
 import Validator from 'validatorjs';
-import {
-  logger
-} from './console';
-import db from '../models';
+import { logger } from './logger-old';
+import db from '../models/index.model';
 
 Validator.useLang('es');
 const passwordRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))/;
@@ -13,7 +11,7 @@ Validator.register(
   (value) => {
     const result = passwordRegex.test(value);
     logger.info(
-      ` ::: helpers.register.password_strict: Validacion [${result}]`
+      ` ::: helpers.validate.register.password_strict: Validacion [${result}]`
     );
     return result;
   },
@@ -27,7 +25,7 @@ Validator.register(
  * 1 = valida si NO existe
  */
 Validator.registerAsync('exists', async (value, attribute, req, passes) => {
-  logger.info(' ::: helpers.registerAsync.exists');
+  logger.info(' ::: helpers.validate.registerAsync.exists');
   if (!attribute) {
     logger.error(
       ' ::: helpers.registerAsync.exists: Especifique los requisitos, es decir: exist:model,column,(0,1)'
@@ -38,7 +36,7 @@ Validator.registerAsync('exists', async (value, attribute, req, passes) => {
   const attArr = attribute.split(',');
   if (attArr.length !== 3) {
     logger.error(
-      ` ::: helpers.registerAsync.exists: Formato no válido para la regla de validación en ${attribute}`
+      ` ::: helpers.validate.registerAsync.exists: Formato no válido para la regla de validación en ${attribute}`
     );
     throw new Error(
       `Formato no válido para la regla de validación en ${attribute}`
@@ -46,11 +44,7 @@ Validator.registerAsync('exists', async (value, attribute, req, passes) => {
   }
 
   // asignar el índice de matriz 0 y 1 a la tabla y la columna respectivamente
-  const {
-    0: model,
-    1: column,
-    2: condition
-  } = attArr;
+  const { 0: model, 1: column, 2: condition } = attArr;
   // definir mensaje de error personalizado
   const msg = `El valor de ${column} ${
     condition === '0' ? 'no' : 'ya'
@@ -58,16 +52,18 @@ Validator.registerAsync('exists', async (value, attribute, req, passes) => {
   // comprobar si el valor entrante ya existe en la base de datos
   const filter = JSON.parse(`{"${column}": "${value}"}`);
   const count = await db[`${model}`].count({
-    where: filter
+    where: filter,
   });
 
   const flag = condition === '0' ? count : !count;
   if (flag) {
-    logger.info(' ::: helpers.registerAsync.exists: Validacion [true]');
+    logger.info(
+      ' ::: helpers.validate.registerAsync.exists: Validacion [true]'
+    );
     passes();
     return;
   }
-  logger.info(` ::: helpers.registerAsync.exists: ${msg}`);
+  logger.info(` ::: helpers.validate.registerAsync.exists: ${msg}`);
   passes(false, msg); // Devuelve falso si no existe valor
 });
 
@@ -78,10 +74,10 @@ Validator.registerAsync('exists', async (value, attribute, req, passes) => {
 Validator.registerAsync(
   'brother-field-value',
   async (value, attribute, req, passes) => {
-    logger.info(' ::: helpers.registerAsync.brother-field-value');
+    logger.info(' ::: helpers.validate.registerAsync.brother-field-value');
     if (!attribute) {
       logger.error(
-        ' ::: helpers.registerAsync.brother-field-value: Especifique los requisitos, es decir: brother-field-value:model,columnFilter,columnValue,value'
+        ' ::: helpers.validate.registerAsync.brother-field-value: Especifique los requisitos, es decir: brother-field-value:model,columnFilter,columnValue,value'
       );
       throw new Error(
         'Especifique los requisitos, es decir: brother-field-value:model,columnFilter,columnValue,value'
@@ -91,7 +87,7 @@ Validator.registerAsync(
     const attArr = attribute.split(',');
     if (attArr.length !== 4) {
       logger.error(
-        ` ::: helpers.registerAsync.brother-field-value: Formato no válido para la regla de validación en ${attribute}`
+        ` ::: helpers.validate.registerAsync.brother-field-value: Formato no válido para la regla de validación en ${attribute}`
       );
       throw new Error(
         `Formato no válido para la regla de validación en ${attribute}`
@@ -100,10 +96,7 @@ Validator.registerAsync(
 
     // asignar el índice de matriz 0 y 1 a la tabla y la columna respectivamente
     const {
-      0: model,
-      1: columnFilter,
-      2: columnValue,
-      3: valueAttr
+      0: model, 1: columnFilter, 2: columnValue, 3: valueAttr
     } = attArr;
     // definir mensaje de error personalizado
     const msg = `Para el atributo ${columnFilter} el recurso ${model} NO tiene ${columnValue} en ${valueAttr}`;
@@ -112,22 +105,24 @@ Validator.registerAsync(
       `{"${columnFilter}": "${value}", "${columnValue}": "${valueAttr}"}`
     );
     const count = await db[`${model}`].count({
-      where: filter
+      where: filter,
     });
     if (count) {
       logger.info(
-        ' ::: helpers.registerAsync.brother-field-value: Validacion [true]'
+        ' ::: helpers.validate.registerAsync.brother-field-value: Validacion [true]'
       );
       passes();
       return;
     }
-    logger.info(` ::: helpers.registerAsync.brother-field-value: ${msg}`);
+    logger.info(
+      ` ::: helpers.validate.registerAsync.brother-field-value: ${msg}`
+    );
     passes(false, msg); // Devuelve falso si no existe valor
   }
 );
 
 const validator = (body, rules, customMessages, callback) => {
-  logger.info(' ::: helpers.validator');
+  logger.info(' ::: helpers.validate.validator');
   const validation = new Validator(body, rules, customMessages);
   validation.passes(() => callback(null, true));
   validation.fails(() => {
@@ -148,7 +143,7 @@ const validator = (body, rules, customMessages, callback) => {
 };
 
 const response400 = (res, next, err, status) => {
-  logger.info(' ::: helpers.validator.response400');
+  logger.info(' ::: helpers.validate.response400');
   if (!status) {
     res.status(400).json({
       success: false,
@@ -161,10 +156,10 @@ const response400 = (res, next, err, status) => {
 };
 
 const justProperties = (object, props) => {
-  logger.info(' ::: helpers.validator.justProperties');
-  let newObject = {};
+  logger.info(' ::: helpers.validate.justProperties');
+  const newObject = {};
   Object.keys(object).forEach((key) => {
-    if (props.find(element => element == key)) {
+    if (props.find((element) => element === key)) {
       newObject[key] = object[key];
     }
   });
@@ -172,29 +167,32 @@ const justProperties = (object, props) => {
 };
 
 const getJsonQuerys = (query) => new Promise((resolve, reject) => {
-  logger.info(' ::: helpers.validator.getJsonQuerys');
-  let jsonQuery = {};
-  let errors = [];
+  logger.info(' ::: helpers.validate.getJsonQuerys');
+  const jsonQuery = {};
+  const errors = [];
   Object.keys(query).forEach((key) => {
     try {
       jsonQuery[key] = JSON.parse(query[key]);
     } catch (err) {
       errors.push({
         name: key,
-        message: `El valor de ${key} no es valido para una estructura json`
+        message: `El valor de ${key} no es valido para una estructura json`,
       });
     }
   });
-  if(errors.length){
-    logger.error(' ::: helpers.validator.getJsonQuerys: Parametros del query mal formados.');
-    return reject({message: 'helpers.validator.getJsonQuerys', errors});
+  if (errors.length) {
+    logger.error(
+      ' ::: helpers.validator.getJsonQuerys: Parametros del query mal formados.'
+    );
+    return reject({
+      name: 'GetJsonQueryError',
+      message: 'Error transformando el query.',
+      errors,
+    });
   }
   return resolve(jsonQuery);
 });
 
 export {
-  validator,
-  response400,
-  justProperties,
-  getJsonQuerys
+  validator, response400, justProperties, getJsonQuerys
 };
